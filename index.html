@@ -26,11 +26,20 @@
         
         header {
             text-align: center;
-            padding: 60px 0;
+            padding: 60px 40px;
             background: white;
             margin-bottom: 40px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #3498db;
         }
         
         h1 {
@@ -76,8 +85,11 @@
         }
         
         .project {
-            margin-bottom: 30px;
-            padding-bottom: 30px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
             border-bottom: 1px solid #ecf0f1;
         }
         
@@ -85,14 +97,21 @@
             border-bottom: none;
         }
         
-        .project h3 {
+        .project-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .project-content h3 {
             color: #2c3e50;
             margin-bottom: 10px;
         }
         
-        .project p {
+        .project-content p {
             color: #555;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .project-link {
@@ -104,11 +123,18 @@
         .project-link:hover {
             text-decoration: underline;
         }
+        
+        @media (max-width: 768px) {
+            .project {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <img src="images/headshot.jpeg" alt="David Kumar" class="profile-img">
             <h1>David Kumar</h1>
             <p class="subtitle">Finance Student</p>
             <p>The Ohio State University</p>
@@ -128,27 +154,39 @@
             <h2>Projects</h2>
             
             <div class="project">
-                <h3>Monte Carlo Simulation for Options Pricing</h3>
-                <p>Comprehensive Monte Carlo framework implementing GBM and Heston stochastic volatility models. Priced path-dependent options (Asian, barrier), performed statistical validation with VaR/CVaR analysis, and achieved 34% variance reduction through antithetic variates.</p>
-                <a href="https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility" class="project-link" target="_blank">View Project →</a>
+                <img src="images/monte_carlo.png" alt="Monte Carlo Simulation" class="project-img">
+                <div class="project-content">
+                    <h3>Monte Carlo Simulation for Options Pricing</h3>
+                    <p>Comprehensive Monte Carlo framework implementing GBM and Heston stochastic volatility models. Priced path-dependent options (Asian, barrier), performed statistical validation with VaR/CVaR analysis, and achieved 34% variance reduction through antithetic variates.</p>
+                    <a href="https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility" class="project-link" target="_blank">View Project →</a>
+                </div>
             </div>
 
             <div class="project">
-                <h3>Volatility Surface Modeling</h3>
-                <p>Built 3D volatility surface visualization across strikes and maturities using real market data. Analyzed implied volatility smile patterns and term structure dynamics for equity options.</p>
-                <a href="https://github.com/davidkumar-dev/volatility-surface-modeling" class="project-link" target="_blank">View Project →</a>
+                <img src="images/3d_vol.png" alt="Volatility Surface" class="project-img">
+                <div class="project-content">
+                    <h3>Volatility Surface Modeling</h3>
+                    <p>Built 3D volatility surface visualization across strikes and maturities using real market data. Analyzed implied volatility smile patterns and term structure dynamics for equity options.</p>
+                    <a href="https://github.com/davidkumar-dev/volatility-surface-modeling" class="project-link" target="_blank">View Project →</a>
+                </div>
             </div>
 
             <div class="project">
-                <h3>American Options Pricing</h3>
-                <p>Implemented binomial tree model with early exercise boundary analysis. Demonstrated convergence behavior and calculated optimal exercise thresholds for American puts across varying time steps.</p>
-                <a href="https://github.com/davidkumar-dev/american-options-binomial" class="project-link" target="_blank">View Project →</a>
+                <img src="images/boundary.png" alt="Early Exercise Boundary" class="project-img">
+                <div class="project-content">
+                    <h3>American Options Pricing</h3>
+                    <p>Implemented binomial tree model with early exercise boundary analysis. Demonstrated convergence behavior and calculated optimal exercise thresholds for American puts across varying time steps.</p>
+                    <a href="https://github.com/davidkumar-dev/american-options-binomial" class="project-link" target="_blank">View Project →</a>
+                </div>
             </div>
 
             <div class="project">
-                <h3>European Options Pricing Foundation</h3>
-                <p>Core Black-Scholes implementation with Greeks calculation and implied volatility solver. Validated pricing accuracy using real market data and built foundation for derivative modeling.</p>
-                <a href="https://github.com/davidkumar-dev/options-pricing-foundation" class="project-link" target="_blank">View Project →</a>
+                <img src="images/greeks.png" alt="Options Greeks" class="project-img">
+                <div class="project-content">
+                    <h3>European Options Pricing Foundation</h3>
+                    <p>Core Black-Scholes implementation with Greeks calculation and implied volatility solver. Validated pricing accuracy using real market data and built foundation for derivative modeling.</p>
+                    <a href="https://github.com/davidkumar-dev/options-pricing-foundation" class="project-link" target="_blank">View Project →</a>
+                </div>
             </div>
         </div>
     </div>
