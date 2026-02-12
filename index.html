@@ -3,201 +3,966 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Kumar | Finance Student</title>
+    <title>David Kumar | Quantitative Finance</title>
+    <meta name="description" content="Quantitative Finance Portfolio - Options Pricing, Monte Carlo Simulation, Stochastic Volatility">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f1629;
+            --bg-card: rgba(15, 22, 41, 0.6);
+            --bg-glass: rgba(15, 22, 41, 0.4);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --border-color: rgba(148, 163, 184, 0.08);
+            --glow-cyan: rgba(6, 182, 212, 0.15);
+            --glow-blue: rgba(59, 130, 246, 0.15);
         }
-        
+
+        .light-mode {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --bg-glass: rgba(255, 255, 255, 0.5);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: rgba(15, 23, 42, 0.08);
+            --glow-cyan: rgba(6, 182, 212, 0.1);
+            --glow-blue: rgba(59, 130, 246, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
+            font-family: 'Sora', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
         }
-        
-        .container {
-            max-width: 1000px;
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
+
+        /* Animated gradient bg */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 60% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+        }
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, -2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
+        }
+
+        /* Grid pattern overlay */
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+
+        .light-mode .grid-pattern {
+            background-image:
+                linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+        }
+
+        /* Noise texture */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.015;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px;
+        }
+
+        /* Glow line */
+        .glow-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-blue), transparent);
+            opacity: 0.3;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 40px var(--glow-cyan), 0 0 80px var(--glow-blue);
+            transform: translateY(-4px);
+        }
+
+        /* Tag pill */
+        .tag-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.05);
+            transition: all 0.3s ease;
+        }
+        .tag-pill:hover {
+            background: rgba(6, 182, 212, 0.12);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        /* Button */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Nav */
+        .nav-float {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 12px 0;
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-float.visible { transform: translateY(0); }
+        .light-mode .nav-float { background: rgba(248, 250, 252, 0.85); }
+
+        .nav-inner {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        
-        header {
-            text-align: center;
-            padding: 60px 40px;
-            background: white;
-            margin-bottom: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid #3498db;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        
-        .subtitle {
-            font-size: 1.2em;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-        }
-        
-        .links {
-            margin-top: 20px;
-        }
-        
-        .links a {
-            color: #3498db;
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
             text-decoration: none;
-            margin: 0 15px;
+        }
+        .nav-logo span { color: var(--accent-cyan); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-link {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
             font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
         }
-        
-        .links a:hover {
-            text-decoration: underline;
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-cyan);
+            transition: width 0.3s ease;
         }
-        
-        .section {
-            background: white;
-            padding: 40px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .nav-link:hover { color: var(--accent-cyan); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Theme toggle */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
-        
-        h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        .theme-toggle:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+            color: var(--accent-cyan);
         }
-        
-        .project {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #ecf0f1;
+
+        /* Section styles */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        
-        .project:last-child {
-            border-bottom: none;
+
+        /* Filter buttons */
+        .filter-btn {
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
-        .project-img {
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.08);
+        }
+
+        /* Project image */
+        .project-image-wrapper {
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+        }
+        .project-image-wrapper img {
             width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s ease;
         }
-        
-        .project-content h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+        .glass-card:hover .project-image-wrapper img {
+            transform: scale(1.1);
+            filter: brightness(1.1);
         }
-        
-        .project-content p {
-            color: #555;
-            margin-bottom: 15px;
+        .project-image-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
+            pointer-events: none;
         }
-        
-        .project-link {
-            color: #3498db;
+
+        /* Scroll indicator */
+        @keyframes bounce-down {
+            0%, 100% { transform: translateY(0); opacity: 0.6; }
+            50% { transform: translateY(8px); opacity: 1; }
+        }
+        .scroll-indicator {
+            animation: bounce-down 2s ease-in-out infinite;
+        }
+
+        /* Typing cursor */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--accent-cyan);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 0.8s step-end infinite;
+        }
+
+        /* Profile glow */
+        .profile-glow {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-glow::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+            z-index: -1;
+            animation: rotate-glow 4s linear infinite;
+        }
+        @keyframes rotate-glow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .profile-glow img {
+            display: block;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+        }
+
+        /* Social icon */
+        .social-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--glow-cyan);
+        }
+
+        /* Stat card */
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
             font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
-        
-        .project-link:hover {
-            text-decoration: underline;
-        }
-        
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .project {
-                grid-template-columns: 1fr;
-            }
+            .nav-links { gap: 16px; }
+            .nav-link { font-size: 0.75rem; }
+        }
+
+        /* Fade in animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skill badge glow on hover */
+        .skill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            background: var(--bg-glass);
+            transition: all 0.3s ease;
+        }
+        .skill-badge:hover {
+            border-color: rgba(6, 182, 212, 0.3);
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.06);
+        }
+
+        /* Section label */
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Experience timeline dot */
+        .timeline-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--glow-cyan);
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <img src="images/headshot.jpeg" alt="David Kumar" class="profile-img">
-            <h1>David Kumar</h1>
-            <p class="subtitle">Finance Student</p>
-            <p>The Ohio State University</p>
-            <div class="links">
-                <a href="https://github.com/davidkumar-dev" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/dkumar10" target="_blank">LinkedIn</a>
-                <a href="mailto:kumar.1189@osu.edu">Email</a>
-            </div>
-        </header>
+    <div class="noise"></div>
+    <div id="root"></div>
 
-        <div class="section">
-            <h2>About</h2>
-            <p>Finance student at The Ohio State University building technical projects in Python. Working with quantitative analysis, statistical modeling, and computational methods.</p>
-        </div>
+    <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
 
-        <div class="section">
-            <h2>Projects</h2>
-            
-            <div class="project">
-                <img src="images/network_analysis.png" alt="Stock Correlation Networks" class="project-img">
-                <div class="project-content">
-                    <h3>Stock Correlation Network Analysis</h3>
-                    <p>Network analysis of S&P 100 stock correlations across six market periods (2018-2025). Built correlation matrices and network graphs revealing how market structure collapsed during COVID (3,228 connections, 0.591 avg correlation) and dispersed during AI boom (121 connections, 0.200 avg correlation). Identified key stocks using centrality metrics.</p>
-                    <a href="https://github.com/davidkumar-dev/stock-correlation-network" class="project-link" target="_blank">View Project →</a>
+    /* ========================================================================
+       DATA CONFIGURATION - Edit this section to update your portfolio!
+       ======================================================================== */
+
+    // Personal Info
+    const PROFILE = {
+        name: "David Kumar",
+        title: "Quantitative Finance",
+        university: "The Ohio State University — Fisher College of Business",
+        degree: "B.S. Finance · Business Analytics Minor",
+        bio: "Sophomore Finance major at Ohio State with a Business Analytics minor. I like building things in Python, mostly around options pricing, volatility modeling, and market analysis.",
+        image: "images/headshot.jpeg",
+        github: "https://github.com/davidkumar-dev",
+        linkedin: "https://linkedin.com/in/dkumar10",
+        email: "kumar.1189@osu.edu",
+    };
+
+    // Rotating subtitles in the hero
+    const SUBTITLES = [
+        "Quantitative Finance",
+        "Options Pricing",
+        "Monte Carlo Simulation",
+        "Stochastic Volatility",
+        "Derivatives Modeling",
+    ];
+
+    // Skills removed - projects speak for themselves
+
+    // Stats removed - keeping it clean
+
+    // Filter categories
+    const CATEGORIES = ["All", "Options Pricing", "Monte Carlo", "Volatility", "Network Analysis"];
+
+    /*
+     * PROJECTS ARRAY
+     * To add a new project, simply copy one of the objects below and modify the fields.
+     * The website will automatically render the new card with animations.
+     *
+     * Fields:
+     *   title       - Project title
+     *   description - Short description of the project
+     *   image       - Path to project image (relative, e.g. "images/my_project.png")
+     *   github      - GitHub repository URL
+     *   tags        - Array of technology/concept tags
+     *   category    - Must match one of the CATEGORIES above (used for filtering)
+     */
+    const PROJECTS = [
+        {
+            title: "Stock Correlation Network Analysis",
+            description: "Network analysis of S&P 100 stock correlations across six market periods (2018-2025). Built correlation matrices and network graphs revealing how market structure collapsed during COVID (3,228 connections, 0.591 avg correlation) and dispersed during AI boom (121 connections, 0.200 avg correlation). Identified key stocks using centrality metrics.",
+            image: "images/network_analysis.png",
+            github: "https://github.com/davidkumar-dev/stock-correlation-network",
+            tags: ["Network Analysis", "Python", "NumPy", "NetworkX", "Market Structure"],
+            category: "Network Analysis",
+        },
+        {
+            title: "Monte Carlo Options Pricing",
+            description: "Comprehensive Monte Carlo framework implementing GBM and Heston stochastic volatility models. Priced path-dependent options (Asian, barrier), performed statistical validation with VaR/CVaR analysis, and achieved 34% variance reduction through antithetic variates.",
+            image: "images/monte_carlo.png",
+            github: "https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility",
+            tags: ["Monte Carlo", "Heston Model", "Options Pricing", "Variance Reduction"],
+            category: "Monte Carlo",
+        },
+        {
+            title: "Volatility Surface Modeling",
+            description: "Built 3D volatility surface visualization across strikes and maturities using real market data. Analyzed implied volatility smile patterns and term structure dynamics for equity options.",
+            image: "images/3d_vol.png",
+            github: "https://github.com/davidkumar-dev/volatility-surface-modeling",
+            tags: ["Volatility Smile", "Implied Vol", "3D Visualization", "Market Data"],
+            category: "Volatility",
+        },
+        {
+            title: "American Options Pricing",
+            description: "Implemented binomial tree model with early exercise boundary analysis. Demonstrated convergence behavior and calculated optimal exercise thresholds for American puts across varying time steps.",
+            image: "images/boundary.png",
+            github: "https://github.com/davidkumar-dev/american-options-binomial",
+            tags: ["Binomial Trees", "American Options", "Early Exercise", "Numerical Methods"],
+            category: "Options Pricing",
+        },
+        {
+            title: "European Options Pricing Foundation",
+            description: "Core Black-Scholes implementation with Greeks calculation and implied volatility solver. Validated pricing accuracy using real market data and built foundation for derivative modeling.",
+            image: "images/greeks.png",
+            github: "https://github.com/davidkumar-dev/options-pricing-foundation",
+            tags: ["Black-Scholes", "Greeks", "Implied Volatility", "Options Theory"],
+            category: "Options Pricing",
+        },
+    ];
+
+    /* ========================================================================
+       END OF DATA CONFIGURATION
+       ======================================================================== */
+
+    // SVG Icons
+    const Icons = {
+        github: () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+        ),
+        linkedin: () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+        ),
+        mail: () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+        ),
+        externalLink: () => (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+        ),
+        arrowDown: () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+            </svg>
+        ),
+        sun: () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        ),
+        moon: () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        ),
+        code: () => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+        ),
+    };
+
+    // Intersection Observer Hook
+    function useInView(options = {}) {
+        const ref = useRef(null);
+        const [isInView, setIsInView] = useState(false);
+        useEffect(() => {
+            const el = ref.current;
+            if (!el) return;
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.unobserve(el);
+                }
+            }, { threshold: 0.1, ...options });
+            observer.observe(el);
+            return () => observer.unobserve(el);
+        }, []);
+        return [ref, isInView];
+    }
+
+    // Typing animation hook
+    function useTypingAnimation(words, typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) {
+        const [text, setText] = useState('');
+        const [wordIndex, setWordIndex] = useState(0);
+        const [isDeleting, setIsDeleting] = useState(false);
+
+        useEffect(() => {
+            const current = words[wordIndex];
+            let timeout;
+
+            if (!isDeleting && text === current) {
+                timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+            } else if (isDeleting && text === '') {
+                setIsDeleting(false);
+                setWordIndex((prev) => (prev + 1) % words.length);
+            } else {
+                timeout = setTimeout(() => {
+                    setText(current.substring(0, text.length + (isDeleting ? -1 : 1)));
+                }, isDeleting ? deletingSpeed : typingSpeed);
+            }
+            return () => clearTimeout(timeout);
+        }, [text, isDeleting, wordIndex, words]);
+
+        return text;
+    }
+
+    // ---- COMPONENTS ----
+
+    function FloatingNav({ isDark, toggleTheme }) {
+        const [visible, setVisible] = useState(false);
+        useEffect(() => {
+            const handleScroll = () => setVisible(window.scrollY > 600);
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        return (
+            <nav className={`nav-float ${visible ? 'visible' : ''}`}>
+                <div className="nav-inner">
+                    <a href="#hero" className="nav-logo">DK<span>.</span></a>
+                    <div className="nav-links">
+                        <a href="#about" className="nav-link">About</a>
+                        <a href="#projects" className="nav-link">Projects</a>
+                        <a href="#contact" className="nav-link">Contact</a>
+                        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                            {isDark ? <Icons.sun /> : <Icons.moon />}
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        );
+    }
+
+    function HeroSection({ isDark, toggleTheme }) {
+        const typedText = useTypingAnimation(SUBTITLES, 70, 35, 1800);
+
+        return (
+            <section id="hero" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="hero-bg"></div>
+                <div className="grid-pattern"></div>
+
+                {/* Top bar */}
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, maxWidth: 1200, margin: '0 auto' }}>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                        DK<span style={{ color: 'var(--accent-cyan)' }}>.</span>
+                    </span>
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                        <a href="#about" className="nav-link" style={{ fontSize: '0.8rem' }}>About</a>
+                        <a href="#projects" className="nav-link" style={{ fontSize: '0.8rem' }}>Projects</a>
+                        <a href="#contact" className="nav-link" style={{ fontSize: '0.8rem' }}>Contact</a>
+                        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                            {isDark ? <Icons.sun /> : <Icons.moon />}
+                        </button>
+                    </div>
+                </div>
+
+                <div style={{ textAlign: 'center', zIndex: 1, padding: '0 24px' }}>
+                    <div className="profile-glow" style={{ marginBottom: 32 }}>
+                        <img
+                            src={PROFILE.image}
+                            alt={PROFILE.name}
+                            style={{ width: 120, height: 120, objectFit: 'cover' }}
+                            onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.parentElement.style.display = 'none';
+                            }}
+                        />
+                    </div>
+
+                    <h1 style={{
+                        fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+                        fontWeight: 800,
+                        letterSpacing: '-0.03em',
+                        marginBottom: 8,
+                        lineHeight: 1.1,
+                    }}>
+                        {PROFILE.name}
+                    </h1>
+
+                    <div style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 'clamp(0.9rem, 2vw, 1.15rem)',
+                        color: 'var(--accent-cyan)',
+                        height: '1.6em',
+                        marginBottom: 12,
+                        fontWeight: 500,
+                    }}>
+                        {typedText}<span className="cursor-blink"></span>
+                    </div>
+
+                    <p style={{
+                        fontSize: '0.95rem',
+                        color: 'var(--text-secondary)',
+                        marginBottom: 8,
+                        fontWeight: 500,
+                    }}>
+                        {PROFILE.degree}
+                    </p>
+                    <p style={{
+                        fontSize: '0.85rem',
+                        color: 'var(--text-muted)',
+                        marginBottom: 32,
+                    }}>
+                        {PROFILE.university}
+                    </p>
+
+                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 60 }}>
+                        <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
+                            <Icons.github />
+                        </a>
+                        <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
+                            <Icons.linkedin />
+                        </a>
+                        <a href={`mailto:${PROFILE.email}`} className="social-icon" aria-label="Email">
+                            <Icons.mail />
+                        </a>
+                    </div>
+
+                    <a href="#about" className="scroll-indicator" style={{ color: 'var(--text-muted)', display: 'inline-block' }}>
+                        <Icons.arrowDown />
+                    </a>
+                </div>
+            </section>
+        );
+    }
+
+    function AboutSection() {
+        const [ref, inView] = useInView();
+
+        return (
+            <section id="about" ref={ref} style={{ padding: '100px 0 60px' }}>
+                <div className="section-container">
+                    <div className={`fade-up ${inView ? 'visible' : ''}`}>
+                        <div className="section-label">// about</div>
+                        <h2 className="section-title">About Me</h2>
+                    </div>
+
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ transitionDelay: '0.1s', maxWidth: 640 }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.8 }}>
+                            {PROFILE.bio}
+                        </p>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    function ProjectCard({ project, index, inView }) {
+        return (
+            <div
+                className={`glass-card fade-up ${inView ? 'visible' : ''}`}
+                style={{
+                    overflow: 'hidden',
+                    transitionDelay: `${index * 0.1}s`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
+                <div className="project-image-wrapper">
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        onError={(e) => {
+                            e.target.style.background = 'linear-gradient(135deg, var(--bg-secondary), var(--bg-primary))';
+                            e.target.style.display = 'block';
+                        }}
+                    />
+                </div>
+                <div style={{ padding: '20px 24px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <h3 style={{
+                        fontSize: '1.05rem',
+                        fontWeight: 700,
+                        marginBottom: 10,
+                        letterSpacing: '-0.01em',
+                        lineHeight: 1.3,
+                    }}>
+                        {project.title}
+                    </h3>
+                    <p style={{
+                        fontSize: '0.82rem',
+                        color: 'var(--text-secondary)',
+                        lineHeight: 1.7,
+                        marginBottom: 16,
+                        flex: 1,
+                    }}>
+                        {project.description}
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+                        {project.tags.map(tag => (
+                            <span key={tag} className="tag-pill">{tag}</span>
+                        ))}
+                    </div>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ alignSelf: 'flex-start' }}>
+                        <Icons.github /> View on GitHub <Icons.externalLink />
+                    </a>
                 </div>
             </div>
+        );
+    }
 
-            <div class="project">
-                <img src="images/monte_carlo.png" alt="Monte Carlo Simulation" class="project-img">
-                <div class="project-content">
-                    <h3>Monte Carlo Simulation for Options Pricing</h3>
-                    <p>Comprehensive Monte Carlo framework implementing GBM and Heston stochastic volatility models. Priced path-dependent options (Asian, barrier), performed statistical validation with VaR/CVaR analysis, and achieved 34% variance reduction through antithetic variates.</p>
-                    <a href="https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility" class="project-link" target="_blank">View Project →</a>
-                </div>
-            </div>
+    function ProjectsSection() {
+        const [ref, inView] = useInView();
+        const [activeFilter, setActiveFilter] = useState('All');
 
-            <div class="project">
-                <img src="images/3d_vol.png" alt="Volatility Surface" class="project-img">
-                <div class="project-content">
-                    <h3>Volatility Surface Modeling</h3>
-                    <p>Built 3D volatility surface visualization across strikes and maturities using real market data. Analyzed implied volatility smile patterns and term structure dynamics for equity options.</p>
-                    <a href="https://github.com/davidkumar-dev/volatility-surface-modeling" class="project-link" target="_blank">View Project →</a>
-                </div>
-            </div>
+        const filtered = activeFilter === 'All'
+            ? PROJECTS
+            : PROJECTS.filter(p => p.category === activeFilter);
 
-            <div class="project">
-                <img src="images/boundary.png" alt="Early Exercise Boundary" class="project-img">
-                <div class="project-content">
-                    <h3>American Options Pricing</h3>
-                    <p>Implemented binomial tree model with early exercise boundary analysis. Demonstrated convergence behavior and calculated optimal exercise thresholds for American puts across varying time steps.</p>
-                    <a href="https://github.com/davidkumar-dev/american-options-binomial" class="project-link" target="_blank">View Project →</a>
-                </div>
-            </div>
+        return (
+            <section id="projects" ref={ref} style={{ padding: '60px 0 100px' }}>
+                <div className="glow-line" style={{ marginBottom: 80 }}></div>
+                <div className="section-container">
+                    <div className={`fade-up ${inView ? 'visible' : ''}`}>
+                        <div className="section-label">// projects</div>
+                        <h2 className="section-title">What I've Built</h2>
+                    </div>
 
-            <div class="project">
-                <img src="images/greeks.png" alt="Options Greeks" class="project-img">
-                <div class="project-content">
-                    <h3>European Options Pricing Foundation</h3>
-                    <p>Core Black-Scholes implementation with Greeks calculation and implied volatility solver. Validated pricing accuracy using real market data and built foundation for derivative modeling.</p>
-                    <a href="https://github.com/davidkumar-dev/options-pricing-foundation" class="project-link" target="_blank">View Project →</a>
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 24, marginBottom: 40, transitionDelay: '0.1s' }}>
+                        {CATEGORIES.map(cat => (
+                            <button
+                                key={cat}
+                                className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
+                                onClick={() => setActiveFilter(cat)}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+                        gap: 24,
+                    }}>
+                        {filtered.map((project, i) => (
+                            <ProjectCard key={project.title} project={project} index={i} inView={inView} />
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </section>
+        );
+    }
+
+    function ContactSection() {
+        const [ref, inView] = useInView();
+
+        return (
+            <section id="contact" ref={ref} style={{ padding: '60px 0 100px' }}>
+                <div className="glow-line" style={{ marginBottom: 80 }}></div>
+                <div className="section-container" style={{ textAlign: 'center' }}>
+                    <div className={`fade-up ${inView ? 'visible' : ''}`}>
+                        <div className="section-label">// contact</div>
+                        <h2 className="section-title">Let's Connect</h2>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.7 }}>
+                            Always happy to chat. Feel free to reach out.
+                        </p>
+                    </div>
+
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', transitionDelay: '0.15s' }}>
+                        <a href={`mailto:${PROFILE.email}`} className="btn-primary">
+                            <Icons.mail /> {PROFILE.email}
+                        </a>
+                        <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                            <Icons.github /> GitHub
+                        </a>
+                        <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                            <Icons.linkedin /> LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    function Footer() {
+        return (
+            <footer style={{
+                textAlign: 'center',
+                padding: '32px 24px',
+                borderTop: '1px solid var(--border-color)',
+            }}>
+                <p style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.72rem',
+                    color: 'var(--text-muted)',
+                }}>
+                    &copy; {new Date().getFullYear()} David Kumar
+                </p>
+            </footer>
+        );
+    }
+
+    // ---- MAIN APP ----
+    function App() {
+        const [isDark, setIsDark] = useState(true);
+
+        const toggleTheme = useCallback(() => {
+            setIsDark(prev => !prev);
+        }, []);
+
+        useEffect(() => {
+            document.body.className = isDark ? '' : 'light-mode';
+        }, [isDark]);
+
+        return (
+            <>
+                <FloatingNav isDark={isDark} toggleTheme={toggleTheme} />
+                <HeroSection isDark={isDark} toggleTheme={toggleTheme} />
+                <AboutSection />
+                <ProjectsSection />
+                <ContactSection />
+                <Footer />
+            </>
+        );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
