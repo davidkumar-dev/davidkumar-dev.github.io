@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Kumar | Quantitative Finance</title>
-    <meta name="description" content="Quantitative Finance Portfolio - Options Pricing, Monte Carlo Simulation, Stochastic Volatility">
+    <title>David Kumar | Personal Portfolio</title>
+    <meta name="description" content="David Kumar - Finance & Business Analytics at Ohio State. Building trading signals and doing quantitative research.">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -53,12 +53,10 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
 
-        /* Animated gradient bg */
         .hero-bg {
             position: absolute;
             inset: 0;
@@ -83,7 +81,6 @@
             66% { transform: translate(-1%, 1%) rotate(-0.5deg); }
         }
 
-        /* Grid pattern overlay */
         .grid-pattern {
             position: absolute;
             inset: 0;
@@ -93,14 +90,12 @@
             background-size: 60px 60px;
             z-index: 0;
         }
-
         .light-mode .grid-pattern {
             background-image:
                 linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
         }
 
-        /* Noise texture */
         .noise {
             position: fixed;
             inset: 0;
@@ -112,14 +107,12 @@
             background-size: 256px;
         }
 
-        /* Glow line */
         .glow-line {
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-blue), transparent);
             opacity: 0.3;
         }
 
-        /* Glass card */
         .glass-card {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
@@ -134,7 +127,6 @@
             transform: translateY(-4px);
         }
 
-        /* Tag pill */
         .tag-pill {
             display: inline-block;
             padding: 4px 12px;
@@ -153,7 +145,16 @@
             border-color: rgba(6, 182, 212, 0.4);
         }
 
-        /* Button */
+        .tag-pill.algo-tag {
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.05);
+        }
+        .tag-pill.algo-tag:hover {
+            background: rgba(139, 92, 246, 0.12);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -177,7 +178,6 @@
             transform: translateY(-1px);
         }
 
-        /* Nav */
         .nav-float {
             position: fixed;
             top: 0;
@@ -233,7 +233,6 @@
         .nav-link:hover { color: var(--accent-cyan); }
         .nav-link:hover::after { width: 100%; }
 
-        /* Theme toggle */
         .theme-toggle {
             width: 40px;
             height: 40px;
@@ -253,33 +252,12 @@
             color: var(--accent-cyan);
         }
 
-        /* Section styles */
         .section-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Filter buttons */
-        .filter-btn {
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            background: rgba(6, 182, 212, 0.08);
-        }
-
-        /* Project image */
         .project-image-wrapper {
             overflow: hidden;
             border-radius: 12px;
@@ -303,7 +281,6 @@
             pointer-events: none;
         }
 
-        /* Scroll indicator */
         @keyframes bounce-down {
             0%, 100% { transform: translateY(0); opacity: 0.6; }
             50% { transform: translateY(8px); opacity: 1; }
@@ -312,22 +289,6 @@
             animation: bounce-down 2s ease-in-out infinite;
         }
 
-        /* Typing cursor */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .cursor-blink {
-            display: inline-block;
-            width: 2px;
-            height: 1.1em;
-            background: var(--accent-cyan);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: blink 0.8s step-end infinite;
-        }
-
-        /* Profile glow */
         .profile-glow {
             position: relative;
             display: inline-block;
@@ -351,7 +312,6 @@
             border: 3px solid var(--bg-primary);
         }
 
-        /* Social icon */
         .social-icon {
             width: 42px;
             height: 42px;
@@ -373,36 +333,24 @@
             box-shadow: 0 4px 15px var(--glow-cyan);
         }
 
-        /* Stat card */
-        .stat-card {
-            text-align: center;
-            padding: 20px;
-        }
-        .stat-number {
+        .section-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+        .section-label.purple { color: var(--accent-purple); }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links { gap: 16px; }
-            .nav-link { font-size: 0.75rem; }
-        }
-
-        /* Fade in animations */
         .fade-up {
             opacity: 0;
             transform: translateY(30px);
@@ -413,53 +361,20 @@
             transform: translateY(0);
         }
 
-        /* Skill badge glow on hover */
-        .skill-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            background: var(--bg-glass);
-            transition: all 0.3s ease;
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
         }
-        .skill-badge:hover {
-            border-color: rgba(6, 182, 212, 0.3);
-            color: var(--accent-cyan);
-            background: rgba(6, 182, 212, 0.06);
+        @media (max-width: 900px) {
+            .two-col-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
         }
-
-        /* Section label */
-        .section-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent-cyan);
-            margin-bottom: 12px;
-        }
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-
-        /* Experience timeline dot */
-        .timeline-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--accent-cyan);
-            box-shadow: 0 0 10px var(--glow-cyan);
-            flex-shrink: 0;
+        @media (max-width: 768px) {
+            .nav-links { gap: 16px; }
+            .nav-link { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -470,98 +385,65 @@
     <script type="text/babel">
     const { useState, useEffect, useRef, useCallback } = React;
 
-    /* ========================================================================
-       DATA CONFIGURATION - Edit this section to update your portfolio!
-       ======================================================================== */
-
-    // Personal Info
     const PROFILE = {
         name: "David Kumar",
-        title: "Quantitative Finance",
-        university: "The Ohio State University — Fisher College of Business",
+        subtitle: "Personal Portfolio",
+        university: "The Ohio State University - Fisher College of Business",
         degree: "B.S. Finance · Business Analytics Minor",
-        bio: "Sophomore Finance major at Ohio State with a Business Analytics minor. I like building things in Python, mostly around options pricing, volatility modeling, and market analysis.",
+        bio: "Sophomore Finance major at Ohio State with a Business Analytics minor. I like building things in Python, mostly around trading signals, options pricing, and market analysis.",
         image: "images/headshot.jpeg",
         github: "https://github.com/davidkumar-dev",
         linkedin: "https://linkedin.com/in/dkumar10",
         email: "kumar.1189@osu.edu",
     };
 
-    // Rotating subtitles in the hero
-    const SUBTITLES = [
-        "Quantitative Finance",
-        "Options Pricing",
-        "Monte Carlo Simulation",
-        "Stochastic Volatility",
-        "Derivatives Modeling",
+    const ALGOS = [
+        {
+            title: "Kalman Momentum - SPY Trading Signal",
+            description: "A long-only trading signal for SPY using 15-minute data. Takes raw price data, smooths it with a Kalman filter to get velocity and acceleration, and enters long when both are positive (price going up and speeding up). Sizes bets based on how strong the momentum is relative to recent bars. Tested across 233 trades over 8 years of out-of-sample data. 1.13 Sharpe ratio, and statistically significant at p=0.0002 against 10,000 random entry simulations.",
+            image: "images/kalman_momentum.png",
+            github: "https://github.com/davidkumar-dev/kalman-momentum-spy",
+            tags: ["Kalman Filter", "Python", "Monte Carlo", "SPY"],
+        },
     ];
 
-    // Skills removed - projects speak for themselves
-
-    // Stats removed - keeping it clean
-
-    // Filter categories
-    const CATEGORIES = ["All", "Options Pricing", "Monte Carlo", "Volatility", "Network Analysis"];
-
-    /*
-     * PROJECTS ARRAY
-     * To add a new project, simply copy one of the objects below and modify the fields.
-     * The website will automatically render the new card with animations.
-     *
-     * Fields:
-     *   title       - Project title
-     *   description - Short description of the project
-     *   image       - Path to project image (relative, e.g. "images/my_project.png")
-     *   github      - GitHub repository URL
-     *   tags        - Array of technology/concept tags
-     *   category    - Must match one of the CATEGORIES above (used for filtering)
-     */
-    const PROJECTS = [
+    const RESEARCH = [
         {
             title: "Stock Correlation Network Analysis",
-            description: "Network analysis of S&P 100 stock correlations across six market periods (2018-2025). Built correlation matrices and network graphs revealing how market structure collapsed during COVID (3,228 connections, 0.591 avg correlation) and dispersed during AI boom (121 connections, 0.200 avg correlation). Identified key stocks using centrality metrics.",
+            description: "Looked at how S&P 100 stocks move together across six different market periods from 2018 to 2025. Built correlation networks to see how the structure changes. During COVID, almost everything moved together (3,228 connections). During the AI boom, stocks spread apart and moved more independently (121 connections).",
             image: "images/network_analysis.png",
             github: "https://github.com/davidkumar-dev/stock-correlation-network",
-            tags: ["Network Analysis", "Python", "NumPy", "NetworkX", "Market Structure"],
-            category: "Network Analysis",
+            tags: ["Network Analysis", "Python", "NumPy", "NetworkX"],
         },
         {
             title: "Monte Carlo Options Pricing",
-            description: "Comprehensive Monte Carlo framework implementing GBM and Heston stochastic volatility models. Priced path-dependent options (Asian, barrier), performed statistical validation with VaR/CVaR analysis, and achieved 34% variance reduction through antithetic variates.",
+            description: "Built a Monte Carlo framework to price options using both standard and stochastic volatility models. Priced path-dependent options like Asian and barrier options, ran risk analysis with VaR and CVaR, and cut variance by 34% using antithetic variates.",
             image: "images/monte_carlo.png",
             github: "https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility",
-            tags: ["Monte Carlo", "Heston Model", "Options Pricing", "Variance Reduction"],
-            category: "Monte Carlo",
+            tags: ["Monte Carlo", "Heston Model", "Options Pricing"],
         },
         {
             title: "Volatility Surface Modeling",
-            description: "Built 3D volatility surface visualization across strikes and maturities using real market data. Analyzed implied volatility smile patterns and term structure dynamics for equity options.",
+            description: "Built a 3D visualization of how implied volatility changes across different strike prices and expiration dates. Used real market data to map out the volatility smile and see how it shifts over time.",
             image: "images/3d_vol.png",
             github: "https://github.com/davidkumar-dev/volatility-surface-modeling",
-            tags: ["Volatility Smile", "Implied Vol", "3D Visualization", "Market Data"],
-            category: "Volatility",
+            tags: ["Implied Volatility", "3D Visualization", "Market Data"],
         },
         {
             title: "American Options Pricing",
-            description: "Implemented binomial tree model with early exercise boundary analysis. Demonstrated convergence behavior and calculated optimal exercise thresholds for American puts across varying time steps.",
+            description: "Priced American options using a binomial tree model. Analyzed where early exercise makes sense and how the pricing converges as you add more time steps to the tree.",
             image: "images/boundary.png",
             github: "https://github.com/davidkumar-dev/american-options-binomial",
-            tags: ["Binomial Trees", "American Options", "Early Exercise", "Numerical Methods"],
-            category: "Options Pricing",
+            tags: ["Binomial Trees", "American Options", "Numerical Methods"],
         },
         {
-            title: "European Options Pricing Foundation",
-            description: "Core Black-Scholes implementation with Greeks calculation and implied volatility solver. Validated pricing accuracy using real market data and built foundation for derivative modeling.",
+            title: "European Options Pricing",
+            description: "Implemented Black-Scholes from scratch with Greeks calculation and an implied volatility solver. Validated pricing against real market data to make sure the numbers actually matched.",
             image: "images/greeks.png",
             github: "https://github.com/davidkumar-dev/options-pricing-foundation",
-            tags: ["Black-Scholes", "Greeks", "Implied Volatility", "Options Theory"],
-            category: "Options Pricing",
+            tags: ["Black-Scholes", "Greeks", "Implied Volatility"],
         },
     ];
-
-    /* ========================================================================
-       END OF DATA CONFIGURATION
-       ======================================================================== */
 
     // SVG Icons
     const Icons = {
@@ -600,14 +482,18 @@
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
         ),
-        code: () => (
+        signal: () => (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                <path d="m2 20 6-6m0 0 4 4m-4-4 4-4m0 0 6-6"/>
+            </svg>
+        ),
+        flask: () => (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 3h6m-5 0v6.5L4 18a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1l-6-8.5V3"/>
             </svg>
         ),
     };
 
-    // Intersection Observer Hook
     function useInView(options = {}) {
         const ref = useRef(null);
         const [isInView, setIsInView] = useState(false);
@@ -625,34 +511,6 @@
         }, []);
         return [ref, isInView];
     }
-
-    // Typing animation hook
-    function useTypingAnimation(words, typingSpeed = 80, deletingSpeed = 40, pauseTime = 2000) {
-        const [text, setText] = useState('');
-        const [wordIndex, setWordIndex] = useState(0);
-        const [isDeleting, setIsDeleting] = useState(false);
-
-        useEffect(() => {
-            const current = words[wordIndex];
-            let timeout;
-
-            if (!isDeleting && text === current) {
-                timeout = setTimeout(() => setIsDeleting(true), pauseTime);
-            } else if (isDeleting && text === '') {
-                setIsDeleting(false);
-                setWordIndex((prev) => (prev + 1) % words.length);
-            } else {
-                timeout = setTimeout(() => {
-                    setText(current.substring(0, text.length + (isDeleting ? -1 : 1)));
-                }, isDeleting ? deletingSpeed : typingSpeed);
-            }
-            return () => clearTimeout(timeout);
-        }, [text, isDeleting, wordIndex, words]);
-
-        return text;
-    }
-
-    // ---- COMPONENTS ----
 
     function FloatingNav({ isDark, toggleTheme }) {
         const [visible, setVisible] = useState(false);
@@ -680,14 +538,11 @@
     }
 
     function HeroSection({ isDark, toggleTheme }) {
-        const typedText = useTypingAnimation(SUBTITLES, 70, 35, 1800);
-
         return (
             <section id="hero" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div className="hero-bg"></div>
                 <div className="grid-pattern"></div>
 
-                {/* Top bar */}
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, maxWidth: 1200, margin: '0 auto' }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
                         DK<span style={{ color: 'var(--accent-cyan)' }}>.</span>
@@ -719,7 +574,7 @@
                         fontSize: 'clamp(2.5rem, 6vw, 4rem)',
                         fontWeight: 800,
                         letterSpacing: '-0.03em',
-                        marginBottom: 8,
+                        marginBottom: 12,
                         lineHeight: 1.1,
                     }}>
                         {PROFILE.name}
@@ -727,13 +582,12 @@
 
                     <div style={{
                         fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 'clamp(0.9rem, 2vw, 1.15rem)',
-                        color: 'var(--accent-cyan)',
-                        height: '1.6em',
-                        marginBottom: 12,
-                        fontWeight: 500,
+                        fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+                        color: 'var(--text-muted)',
+                        marginBottom: 16,
+                        fontWeight: 400,
                     }}>
-                        {typedText}<span className="cursor-blink"></span>
+                        {PROFILE.subtitle}
                     </div>
 
                     <p style={{
@@ -782,7 +636,6 @@
                         <div className="section-label">// about</div>
                         <h2 className="section-title">About Me</h2>
                     </div>
-
                     <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ transitionDelay: '0.1s', maxWidth: 640 }}>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.8 }}>
                             {PROFILE.bio}
@@ -793,7 +646,7 @@
         );
     }
 
-    function ProjectCard({ project, index, inView }) {
+    function ProjectCard({ project, index, inView, isAlgo }) {
         return (
             <div
                 className={`glass-card fade-up ${inView ? 'visible' : ''}`}
@@ -835,7 +688,7 @@
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
                         {project.tags.map(tag => (
-                            <span key={tag} className="tag-pill">{tag}</span>
+                            <span key={tag} className={`tag-pill ${isAlgo ? 'algo-tag' : ''}`}>{tag}</span>
                         ))}
                     </div>
                     <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ alignSelf: 'flex-start' }}>
@@ -848,41 +701,68 @@
 
     function ProjectsSection() {
         const [ref, inView] = useInView();
-        const [activeFilter, setActiveFilter] = useState('All');
-
-        const filtered = activeFilter === 'All'
-            ? PROJECTS
-            : PROJECTS.filter(p => p.category === activeFilter);
 
         return (
             <section id="projects" ref={ref} style={{ padding: '60px 0 100px' }}>
                 <div className="glow-line" style={{ marginBottom: 80 }}></div>
                 <div className="section-container">
-                    <div className={`fade-up ${inView ? 'visible' : ''}`}>
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ marginBottom: 48 }}>
                         <div className="section-label">// projects</div>
                         <h2 className="section-title">What I've Built</h2>
                     </div>
 
-                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 24, marginBottom: 40, transitionDelay: '0.1s' }}>
-                        {CATEGORIES.map(cat => (
-                            <button
-                                key={cat}
-                                className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
-                                onClick={() => setActiveFilter(cat)}
-                            >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
+                    <div className="two-col-grid">
+                        {/* Left column - Algorithms & Signals */}
+                        <div>
+                            <div className={`fade-up ${inView ? 'visible' : ''}`} style={{
+                                display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24,
+                                transitionDelay: '0.1s',
+                            }}>
+                                <Icons.signal />
+                                <h3 style={{
+                                    fontFamily: "'JetBrains Mono', monospace",
+                                    fontSize: '0.85rem',
+                                    fontWeight: 600,
+                                    color: 'var(--accent-purple)',
+                                    letterSpacing: '0.05em',
+                                    textTransform: 'uppercase',
+                                }}>
+                                    Algorithms & Signals
+                                </h3>
+                            </div>
 
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-                        gap: 24,
-                    }}>
-                        {filtered.map((project, i) => (
-                            <ProjectCard key={project.title} project={project} index={i} inView={inView} />
-                        ))}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                                {ALGOS.map((project, i) => (
+                                    <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={true} />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Right column - Research */}
+                        <div>
+                            <div className={`fade-up ${inView ? 'visible' : ''}`} style={{
+                                display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24,
+                                transitionDelay: '0.1s',
+                            }}>
+                                <Icons.flask />
+                                <h3 style={{
+                                    fontFamily: "'JetBrains Mono', monospace",
+                                    fontSize: '0.85rem',
+                                    fontWeight: 600,
+                                    color: 'var(--accent-cyan)',
+                                    letterSpacing: '0.05em',
+                                    textTransform: 'uppercase',
+                                }}>
+                                    Research
+                                </h3>
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                                {RESEARCH.map((project, i) => (
+                                    <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={false} />
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -938,7 +818,6 @@
         );
     }
 
-    // ---- MAIN APP ----
     function App() {
         const [isDark, setIsDark] = useState(true);
 
