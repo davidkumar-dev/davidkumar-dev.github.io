@@ -119,12 +119,54 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
         }
         .glass-card:hover {
             border-color: rgba(6, 182, 212, 0.2);
             box-shadow: 0 0 40px var(--glow-cyan), 0 0 80px var(--glow-blue);
-            transform: translateY(-4px);
+        }
+
+        /* Animated gradient border */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 17px;
+            padding: 1px;
+            background: linear-gradient(
+                var(--gradient-angle, 0deg),
+                transparent 40%,
+                var(--accent-cyan) 50%,
+                var(--accent-purple) 60%,
+                transparent 70%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            pointer-events: none;
+            animation: rotate-gradient 3s linear infinite;
+        }
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+        @keyframes rotate-gradient {
+            0% { --gradient-angle: 0deg; }
+            100% { --gradient-angle: 360deg; }
+        }
+        @property --gradient-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
         .tag-pill {
@@ -494,6 +536,107 @@
         ),
     };
 
+    // 3D Tilt effect hook
+    function useTilt(intensity = 15) {
+        const ref = useRef(null);
+        const [style, setStyle] = useState({
+            transform: 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)',
+            transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        });
+
+        const handleMouseMove = useCallback((e) => {
+            const el = ref.current;
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -intensity;
+            const rotateY = ((x - centerX) / centerX) * intensity;
+            setStyle({
+                transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`,
+                transition: 'transform 0.1s ease-out',
+            });
+        }, [intensity]);
+
+        const handleMouseLeave = useCallback(() => {
+            setStyle({
+                transform: 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)',
+                transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+            });
+        }, []);
+
+        return { ref, style, handleMouseMove, handleMouseLeave };
+    }
+
+    // Text scramble effect
+    function useTextScramble(finalText, startDelay = 500) {
+        const [display, setDisplay] = useState('');
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+        const started = useRef(false);
+
+        useEffect(() => {
+            if (started.current) return;
+            started.current = true;
+            let frame = 0;
+            const totalFrames = 20;
+            const timer = setTimeout(() => {
+                const interval = setInterval(() => {
+                    frame++;
+                    const progress = frame / totalFrames;
+                    const revealed = Math.floor(progress * finalText.length);
+                    let result = '';
+                    for (let i = 0; i < finalText.length; i++) {
+                        if (finalText[i] === ' ') {
+                            result += ' ';
+                        } else if (i < revealed) {
+                            result += finalText[i];
+                        } else {
+                            result += chars[Math.floor(Math.random() * chars.length)];
+                        }
+                    }
+                    setDisplay(result);
+                    if (frame >= totalFrames) {
+                        clearInterval(interval);
+                        setDisplay(finalText);
+                    }
+                }, 50);
+            }, startDelay);
+            return () => clearTimeout(timer);
+        }, [finalText, startDelay]);
+
+        return display;
+    }
+
+    // Magnetic button effect
+    function useMagnetic(strength = 0.3) {
+        const ref = useRef(null);
+        const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+        const handleMouseMove = useCallback((e) => {
+            const el = ref.current;
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dx = (e.clientX - centerX) * strength;
+            const dy = (e.clientY - centerY) * strength;
+            setOffset({ x: dx, y: dy });
+        }, [strength]);
+
+        const handleMouseLeave = useCallback(() => {
+            setOffset({ x: 0, y: 0 });
+        }, []);
+
+        const style = {
+            transform: `translate(${offset.x}px, ${offset.y}px)`,
+            transition: offset.x === 0 ? 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)' : 'transform 0.1s ease-out',
+        };
+
+        return { ref, style, handleMouseMove, handleMouseLeave };
+    }
+
     function useInView(options = {}) {
         const ref = useRef(null);
         const [isInView, setIsInView] = useState(false);
@@ -537,11 +680,36 @@
         );
     }
 
-    function HeroSection({ isDark, toggleTheme }) {
+    function MagneticWrapper({ children, strength = 0.3, style: extraStyle = {} }) {
+        const mag = useMagnetic(strength);
         return (
-            <section id="hero" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div className="hero-bg"></div>
-                <div className="grid-pattern"></div>
+            <div
+                ref={mag.ref}
+                onMouseMove={mag.handleMouseMove}
+                onMouseLeave={mag.handleMouseLeave}
+                style={{ display: 'inline-block', ...mag.style, ...extraStyle }}
+            >
+                {children}
+            </div>
+        );
+    }
+
+    function HeroSection({ isDark, toggleTheme }) {
+        const scrambledName = useTextScramble(PROFILE.name, 400);
+        const [parallaxY, setParallaxY] = useState(0);
+
+        useEffect(() => {
+            const handleScroll = () => {
+                setParallaxY(window.scrollY * 0.3);
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        return (
+            <section id="hero" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div className="hero-bg" style={{ transform: `translateY(${parallaxY * 0.5}px)` }}></div>
+                <div className="grid-pattern" style={{ transform: `translateY(${parallaxY * 0.2}px)` }}></div>
 
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, maxWidth: 1200, margin: '0 auto' }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
@@ -557,7 +725,7 @@
                     </div>
                 </div>
 
-                <div style={{ textAlign: 'center', zIndex: 1, padding: '0 24px' }}>
+                <div style={{ textAlign: 'center', zIndex: 1, padding: '0 24px', transform: `translateY(${parallaxY * 0.15}px)` }}>
                     <div className="profile-glow" style={{ marginBottom: 32 }}>
                         <img
                             src={PROFILE.image}
@@ -576,8 +744,9 @@
                         letterSpacing: '-0.03em',
                         marginBottom: 12,
                         lineHeight: 1.1,
+                        fontFamily: "'Sora', sans-serif",
                     }}>
-                        {PROFILE.name}
+                        {scrambledName}
                     </h1>
 
                     <div style={{
@@ -607,15 +776,21 @@
                     </p>
 
                     <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 60 }}>
-                        <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
-                            <Icons.github />
-                        </a>
-                        <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
-                            <Icons.linkedin />
-                        </a>
-                        <a href={`mailto:${PROFILE.email}`} className="social-icon" aria-label="Email">
-                            <Icons.mail />
-                        </a>
+                        <MagneticWrapper strength={0.4}>
+                            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
+                                <Icons.github />
+                            </a>
+                        </MagneticWrapper>
+                        <MagneticWrapper strength={0.4}>
+                            <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
+                                <Icons.linkedin />
+                            </a>
+                        </MagneticWrapper>
+                        <MagneticWrapper strength={0.4}>
+                            <a href={`mailto:${PROFILE.email}`} className="social-icon" aria-label="Email">
+                                <Icons.mail />
+                            </a>
+                        </MagneticWrapper>
                     </div>
 
                     <a href="#about" className="scroll-indicator" style={{ color: 'var(--text-muted)', display: 'inline-block' }}>
@@ -647,14 +822,19 @@
     }
 
     function ProjectCard({ project, index, inView, isAlgo }) {
+        const tilt = useTilt(10);
         return (
             <div
-                className={`glass-card fade-up ${inView ? 'visible' : ''}`}
+                ref={tilt.ref}
+                onMouseMove={tilt.handleMouseMove}
+                onMouseLeave={tilt.handleMouseLeave}
+                className={`glass-card tilt-card fade-up ${inView ? 'visible' : ''}`}
                 style={{
                     overflow: 'hidden',
                     transitionDelay: `${index * 0.1}s`,
                     display: 'flex',
                     flexDirection: 'column',
+                    ...tilt.style,
                 }}
             >
                 <div className="project-image-wrapper">
