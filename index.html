@@ -10,62 +10,76 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #09090b;
-            --bg-secondary: #0f1117;
-            --bg-card: rgba(15, 17, 23, 0.8);
-            --bg-glass: rgba(15, 17, 23, 0.5);
-            --text-primary: #f4f4f5;
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0f;
+            --bg-card: rgba(12, 12, 18, 0.85);
+            --bg-card-hover: rgba(16, 16, 24, 0.95);
+            --bg-glass: rgba(12, 12, 18, 0.5);
+            --bg-elevated: rgba(20, 20, 30, 0.6);
+            --text-primary: #e4e4e7;
             --text-secondary: #a1a1aa;
             --text-muted: #52525b;
             --accent-primary: #5eead4;
-            --accent-dim: rgba(94, 234, 212, 0.08);
-            --accent-highlight: rgba(94, 234, 212, 0.18);
-            --border-color: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(94, 234, 212, 0.2);
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.02);
-            --shadow-md: 0 4px 24px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.03);
-            --shadow-lg: 0 16px 48px rgba(0,0,0,0.35), 0 0 0 1px rgba(94,234,212,0.06);
-            --shadow-glow: 0 0 40px rgba(94, 234, 212, 0.06);
+            --accent-secondary: #2dd4bf;
+            --accent-dim: rgba(94, 234, 212, 0.07);
+            --accent-highlight: rgba(94, 234, 212, 0.15);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-hover: rgba(94, 234, 212, 0.25);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.3);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 60px rgba(94, 234, 212, 0.08), 0 0 120px rgba(94, 234, 212, 0.03);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
         }
 
         .light-mode {
             --bg-primary: #fafafa;
             --bg-secondary: #f4f4f5;
-            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --bg-card-hover: rgba(255, 255, 255, 1);
             --bg-glass: rgba(255, 255, 255, 0.7);
+            --bg-elevated: rgba(255, 255, 255, 0.8);
             --text-primary: #09090b;
             --text-secondary: #52525b;
             --text-muted: #a1a1aa;
             --accent-primary: #0d9488;
+            --accent-secondary: #0f766e;
             --accent-dim: rgba(13, 148, 136, 0.06);
             --accent-highlight: rgba(13, 148, 136, 0.12);
             --border-color: rgba(0, 0, 0, 0.06);
-            --border-hover: rgba(13, 148, 136, 0.2);
+            --border-hover: rgba(13, 148, 136, 0.25);
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
-            --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
-            --shadow-glow: 0 0 40px rgba(13, 148, 136, 0.04);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.08);
+            --shadow-glow: 0 0 60px rgba(13, 148, 136, 0.06);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Sora', -apple-system, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
             transition: background 0.5s ease, color 0.5s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: rgba(94, 234, 212, 0.15); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(94, 234, 212, 0.3); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(94, 234, 212, 0.12); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(94, 234, 212, 0.25); }
 
         .hero-bg {
             position: absolute;
@@ -80,9 +94,9 @@
             height: 150%;
             top: -25%;
             left: -25%;
-            background: radial-gradient(ellipse at 20% 50%, rgba(94, 234, 212, 0.03) 0%, transparent 50%),
-                        radial-gradient(ellipse at 80% 20%, rgba(94, 234, 212, 0.02) 0%, transparent 50%),
-                        radial-gradient(ellipse at 60% 80%, rgba(94, 234, 212, 0.015) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 30% 40%, rgba(94, 234, 212, 0.06) 0%, transparent 55%),
+                        radial-gradient(ellipse at 70% 20%, rgba(94, 234, 212, 0.035) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 90%, rgba(94, 234, 212, 0.02) 0%, transparent 50%);
             animation: drift 20s ease-in-out infinite;
         }
         @keyframes drift {
@@ -95,15 +109,15 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 80px 80px;
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
             z-index: 0;
         }
         .light-mode .grid-pattern {
             background-image:
-                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
         }
 
         .noise {
@@ -111,7 +125,7 @@
             inset: 0;
             z-index: 9999;
             pointer-events: none;
-            opacity: 0.025;
+            opacity: 0.018;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 256px;
@@ -119,22 +133,27 @@
 
         .glow-line {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.15), rgba(94, 234, 212, 0.08), transparent);
+            background: linear-gradient(90deg, transparent 5%, rgba(94, 234, 212, 0.2) 30%, rgba(94, 234, 212, 0.4) 50%, rgba(94, 234, 212, 0.2) 70%, transparent 95%);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .glass-card {
             background: var(--bg-card);
-            backdrop-filter: blur(32px) saturate(1.3);
-            -webkit-backdrop-filter: blur(32px) saturate(1.3);
+            backdrop-filter: blur(40px) saturate(1.4);
+            -webkit-backdrop-filter: blur(40px) saturate(1.4);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            transition: border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: var(--radius-lg);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             box-shadow: var(--shadow-sm);
         }
         .glass-card:hover {
+            background: var(--bg-card-hover);
             border-color: var(--border-hover);
             box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-4px);
         }
 
         /* Top edge highlight */
@@ -142,14 +161,18 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 24px;
-            right: 24px;
+            left: 32px;
+            right: 32px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-highlight), transparent);
-            opacity: 0.6;
-            border-radius: 16px 16px 0 0;
+            background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.25), transparent);
+            opacity: 0;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
             pointer-events: none;
             z-index: 2;
+            transition: opacity 0.5s ease;
+        }
+        .glass-card:hover::after {
+            opacity: 1;
         }
 
         /* Animated gradient border */
@@ -157,24 +180,24 @@
             content: '';
             position: absolute;
             inset: -1px;
-            border-radius: 17px;
+            border-radius: calc(var(--radius-lg) + 1px);
             padding: 1px;
             background: linear-gradient(
                 var(--gradient-angle, 0deg),
-                transparent 40%,
+                transparent 35%,
                 var(--accent-primary) 50%,
-                rgba(94, 234, 212, 0.2) 60%,
-                transparent 70%
+                rgba(94, 234, 212, 0.3) 60%,
+                transparent 75%
             );
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
             z-index: 1;
             pointer-events: none;
-            animation: rotate-gradient 3s linear infinite;
+            animation: rotate-gradient 4s linear infinite;
         }
         .glass-card:hover::before {
             opacity: 1;
@@ -196,68 +219,84 @@
 
         .tag-pill {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 100px;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 500;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.03em;
             border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            background: transparent;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-muted);
+            background: var(--accent-dim);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .tag-pill:hover {
             border-color: var(--accent-primary);
-            color: var(--text-primary);
-            background: var(--accent-dim);
+            color: var(--accent-primary);
+            background: rgba(94, 234, 212, 0.12);
+            transform: translateY(-1px);
         }
 
         .tag-pill.algo-tag {
             border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            background: transparent;
+            color: var(--text-muted);
+            background: var(--accent-dim);
         }
         .tag-pill.algo-tag:hover {
             border-color: var(--accent-primary);
-            color: var(--text-primary);
-            background: var(--accent-dim);
+            color: var(--accent-primary);
+            background: rgba(94, 234, 212, 0.12);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 11px 22px;
+            border-radius: var(--radius-sm);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 500;
             text-decoration: none;
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
             background: transparent;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(94, 234, 212, 0.1), rgba(94, 234, 212, 0.03));
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+        .btn-primary:hover::before {
+            opacity: 1;
         }
         .btn-primary:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(94, 234, 212, 0.1), 0 0 0 1px rgba(94, 234, 212, 0.1);
+            box-shadow: 0 6px 24px rgba(94, 234, 212, 0.12);
         }
 
         .contact-btn {
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
             font-size: 0.82rem;
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: var(--bg-elevated);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
         .contact-btn:hover {
-            background: var(--accent-dim);
+            background: rgba(94, 234, 212, 0.08);
             border-color: var(--accent-primary);
+            box-shadow: 0 8px 32px rgba(94, 234, 212, 0.1);
         }
 
         .nav-float {
@@ -267,28 +306,28 @@
             transform: translateX(-50%) translateY(-120%);
             z-index: 100;
             padding: 10px 28px;
-            background: rgba(9, 9, 11, 0.6);
-            backdrop-filter: blur(40px) saturate(1.6);
-            -webkit-backdrop-filter: blur(40px) saturate(1.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+            background: rgba(5, 5, 5, 0.65);
+            backdrop-filter: blur(48px) saturate(1.8);
+            -webkit-backdrop-filter: blur(48px) saturate(1.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
         }
         .nav-float.visible {
             transform: translateX(-50%) translateY(0);
         }
         .light-mode .nav-float {
             background: rgba(250, 250, 250, 0.65);
-            backdrop-filter: blur(40px) saturate(1.6);
-            -webkit-backdrop-filter: blur(40px) saturate(1.6);
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.04), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(48px) saturate(1.8);
+            -webkit-backdrop-filter: blur(48px) saturate(1.8);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
         }
 
         .nav-inner {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 28px;
         }
         .nav-logo {
             font-family: 'JetBrains Mono', monospace;
@@ -298,14 +337,15 @@
             text-decoration: none;
         }
         .nav-logo span { color: var(--accent-primary); }
-        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
         .nav-link {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            font-size: 0.78rem;
+            color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
             position: relative;
+            letter-spacing: 0.01em;
         }
         .nav-link::after {
             content: '';
@@ -313,69 +353,72 @@
             bottom: -4px;
             left: 0;
             width: 0;
-            height: 1px;
+            height: 1.5px;
             background: var(--accent-primary);
-            transition: width 0.3s ease;
+            transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 1px;
         }
-        .nav-link:hover { color: var(--text-primary); }
+        .nav-link:hover { color: var(--accent-primary); }
         .nav-link:hover::after { width: 100%; }
 
         .theme-toggle {
             width: 36px;
             height: 36px;
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             background: transparent;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             font-size: 1rem;
         }
         .theme-toggle:hover {
             border-color: var(--accent-primary);
-            color: var(--text-primary);
-            transform: scale(1.05);
+            color: var(--accent-primary);
+            background: var(--accent-dim);
+            transform: scale(1.08);
         }
 
         .section-container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 32px;
         }
 
         .project-image-wrapper {
             overflow: hidden;
-            border-radius: 12px;
+            border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
             position: relative;
+            margin: 0;
         }
         .project-image-wrapper img {
             width: 100%;
-            height: 220px;
+            height: 240px;
             object-fit: cover;
-            filter: saturate(0.85) contrast(1.05);
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s ease;
+            filter: saturate(0.8) contrast(1.05) brightness(0.95);
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), filter 0.7s ease;
         }
         .glass-card:hover .project-image-wrapper img {
-            transform: scale(1.06);
-            filter: saturate(1) contrast(1.05) brightness(1.08);
+            transform: scale(1.05);
+            filter: saturate(1) contrast(1.05) brightness(1.05);
         }
         .project-image-wrapper::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
+            background: linear-gradient(to top, var(--bg-card) 0%, rgba(12,12,18,0.2) 50%, transparent 100%);
             pointer-events: none;
         }
 
         @keyframes bounce-down {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(8px); opacity: 0.8; }
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(10px); opacity: 0.7; }
         }
         .scroll-indicator {
-            animation: bounce-down 2s ease-in-out infinite;
+            animation: bounce-down 2.5s ease-in-out infinite;
         }
 
         .profile-glow {
@@ -385,15 +428,24 @@
         .profile-glow::before {
             content: '';
             position: absolute;
-            inset: -3px;
+            inset: -4px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(94,234,212,0.35), rgba(94,234,212,0.08), rgba(94,234,212,0.35));
+            background: conic-gradient(from 0deg, rgba(94,234,212,0.4), rgba(94,234,212,0.05), rgba(94,234,212,0.4), rgba(94,234,212,0.05), rgba(94,234,212,0.4));
             z-index: -1;
             animation: rotate-glow 4s linear infinite;
         }
+        .profile-glow::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(94,234,212,0.08) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+        }
         @keyframes rotate-glow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .profile-glow img {
             display: block;
@@ -402,47 +454,49 @@
         }
 
         .social-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
-            background: transparent;
+            background: var(--bg-elevated);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .social-icon:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 16px rgba(94, 234, 212, 0.12);
+            background: rgba(94, 234, 212, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(94, 234, 212, 0.15);
         }
 
         .section-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.2em;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--accent-primary);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            opacity: 0.8;
         }
         .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 600;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 16px;
-            letter-spacing: -0.03em;
-            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
         }
 
         .fade-up {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .fade-up.visible {
             opacity: 1;
@@ -452,23 +506,24 @@
         .two-col-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 64px;
+            gap: 48px;
         }
         @media (max-width: 900px) {
             .two-col-grid {
                 grid-template-columns: 1fr;
-                gap: 60px;
+                gap: 64px;
             }
         }
         @media (max-width: 768px) {
-            .nav-links { gap: 14px; }
+            .nav-links { gap: 16px; }
             .nav-link { font-size: 0.75rem; }
             .nav-float { padding: 8px 16px; }
+            .section-container { padding: 0 20px; }
         }
 
         .footer-main {
             text-align: center;
-            padding: 56px 24px 40px;
+            padding: 64px 24px 48px;
             border-top: 1px solid var(--border-color);
             position: relative;
         }
@@ -476,18 +531,18 @@
             content: '';
             position: absolute;
             top: -1px;
-            left: 20%;
-            right: 20%;
+            left: 25%;
+            right: 25%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-dim), transparent);
+            background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.15), transparent);
         }
 
         .network-canvas {
             position: absolute;
             inset: 0;
             z-index: 0;
-            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 90%);
+            mask-image: linear-gradient(to bottom, black 30%, transparent 90%);
         }
     </style>
 </head>
@@ -928,11 +983,11 @@
                 </div>
 
                 <div style={{ textAlign: 'center', zIndex: 1, padding: '0 24px', transform: `translateY(${parallaxY * 0.15}px)` }}>
-                    <div className="profile-glow" style={{ marginBottom: 32 }}>
+                    <div className="profile-glow" style={{ marginBottom: 40 }}>
                         <img
                             src={PROFILE.image}
                             alt={PROFILE.name}
-                            style={{ width: 120, height: 120, objectFit: 'cover' }}
+                            style={{ width: 130, height: 130, objectFit: 'cover' }}
                             onError={(e) => {
                                 e.target.style.display = 'none';
                                 e.target.parentElement.style.display = 'none';
@@ -941,30 +996,35 @@
                     </div>
 
                     <h1 style={{
-                        fontSize: 'clamp(2.8rem, 7vw, 4.5rem)',
-                        fontWeight: 700,
-                        letterSpacing: '-0.04em',
-                        marginBottom: 12,
-                        lineHeight: 1.1,
+                        fontSize: 'clamp(3.2rem, 8vw, 5.5rem)',
+                        fontWeight: 800,
+                        letterSpacing: '-0.05em',
+                        marginBottom: 16,
+                        lineHeight: 1.05,
                         fontFamily: "'Sora', sans-serif",
+                        background: 'linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
                     }}>
                         {scrambledName}
                     </h1>
 
                     <div style={{
                         fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+                        fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
                         color: 'var(--text-muted)',
-                        marginBottom: 16,
+                        marginBottom: 20,
                         fontWeight: 400,
+                        letterSpacing: '0.05em',
                     }}>
                         {PROFILE.subtitle}
                     </div>
 
                     <p style={{
-                        fontSize: '0.95rem',
+                        fontSize: '1rem',
                         color: 'var(--text-secondary)',
-                        marginBottom: 8,
+                        marginBottom: 6,
                         fontWeight: 500,
                     }}>
                         {PROFILE.degree}
@@ -972,12 +1032,12 @@
                     <p style={{
                         fontSize: '0.85rem',
                         color: 'var(--text-muted)',
-                        marginBottom: 32,
+                        marginBottom: 40,
                     }}>
                         {PROFILE.university}
                     </p>
 
-                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 48 }}>
+                    <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 56 }}>
                         <MagneticWrapper strength={0.4}>
                             <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
                                 <Icons.github />
@@ -1007,14 +1067,14 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="about" ref={ref} style={{ padding: '140px 0 100px' }}>
+            <section id="about" ref={ref} style={{ padding: '160px 0 120px' }}>
                 <div className="section-container">
                     <div className={`fade-up ${inView ? 'visible' : ''}`}>
                         <div className="section-label">// about</div>
                         <h2 className="section-title">About Me</h2>
                     </div>
                     <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ transitionDelay: '0.1s', maxWidth: 640 }}>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.85 }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.9, letterSpacing: '-0.01em' }}>
                             {PROFILE.bio}
                         </p>
                     </div>
@@ -1049,26 +1109,26 @@
                         }}
                     />
                 </div>
-                <div style={{ padding: '24px 28px 28px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <div style={{ padding: '28px 28px 32px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <h3 style={{
-                        fontSize: '1.1rem',
+                        fontSize: '1.15rem',
                         fontWeight: 600,
-                        marginBottom: 10,
-                        letterSpacing: '-0.015em',
+                        marginBottom: 12,
+                        letterSpacing: '-0.02em',
                         lineHeight: 1.3,
                     }}>
                         {project.title}
                     </h3>
                     <p style={{
-                        fontSize: '0.82rem',
+                        fontSize: '0.84rem',
                         color: 'var(--text-secondary)',
-                        lineHeight: 1.75,
-                        marginBottom: 16,
+                        lineHeight: 1.8,
+                        marginBottom: 20,
                         flex: 1,
                     }}>
                         {project.description}
                     </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
                         {project.tags.map(tag => (
                             <span key={tag} className={`tag-pill ${isAlgo ? 'algo-tag' : ''}`}>{tag}</span>
                         ))}
@@ -1085,10 +1145,10 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="projects" ref={ref} style={{ padding: '100px 0 140px' }}>
-                <div className="glow-line" style={{ marginBottom: 80 }}></div>
+            <section id="projects" ref={ref} style={{ padding: '120px 0 160px' }}>
+                <div className="glow-line" style={{ marginBottom: 96 }}></div>
                 <div className="section-container">
-                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ marginBottom: 48 }}>
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ marginBottom: 56 }}>
                         <div className="section-label">// projects</div>
                         <h2 className="section-title">What I've Built</h2>
                     </div>
@@ -1113,7 +1173,7 @@
                                 </h3>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                                 {ALGOS.map((project, i) => (
                                     <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={true} />
                                 ))}
@@ -1139,7 +1199,7 @@
                                 </h3>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
                                 {RESEARCH.map((project, i) => (
                                     <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={false} />
                                 ))}
@@ -1155,8 +1215,8 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="contact" ref={ref} style={{ padding: '100px 0 140px' }}>
-                <div className="glow-line" style={{ marginBottom: 80 }}></div>
+            <section id="contact" ref={ref} style={{ padding: '120px 0 160px' }}>
+                <div className="glow-line" style={{ marginBottom: 96 }}></div>
                 <div className="section-container" style={{ textAlign: 'center' }}>
                     <div className={`fade-up ${inView ? 'visible' : ''}`}>
                         <div className="section-label">// contact</div>
