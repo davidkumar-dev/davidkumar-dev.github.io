@@ -1,0 +1,11 @@
+# Claude Code local settings (contains API keys)
+.claude/settings.local.json
+
+# Claude Code skills (third-party, not needed for site)
+.claude/skills/
+
+# Claude Code project data
+.claude/projects/
+
+# OS files
+.DS_Store
