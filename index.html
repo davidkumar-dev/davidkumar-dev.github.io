@@ -10,76 +10,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #050505;
-            --bg-secondary: #0a0a0f;
-            --bg-card: rgba(12, 12, 18, 0.85);
-            --bg-card-hover: rgba(16, 16, 24, 0.95);
-            --bg-glass: rgba(12, 12, 18, 0.5);
-            --bg-elevated: rgba(20, 20, 30, 0.6);
-            --text-primary: #e4e4e7;
-            --text-secondary: #a1a1aa;
-            --text-muted: #52525b;
-            --accent-primary: #5eead4;
-            --accent-secondary: #2dd4bf;
-            --accent-dim: rgba(94, 234, 212, 0.07);
-            --accent-highlight: rgba(94, 234, 212, 0.15);
-            --border-color: rgba(255, 255, 255, 0.05);
-            --border-hover: rgba(94, 234, 212, 0.25);
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
-            --shadow-md: 0 8px 32px rgba(0,0,0,0.3);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
-            --shadow-glow: 0 0 60px rgba(94, 234, 212, 0.08), 0 0 120px rgba(94, 234, 212, 0.03);
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --radius-sm: 10px;
+            --bg-100: #000000;
+            --bg-200: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-hover: #191919;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent: #ededed;
+            --accent-dim: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --radius: 12px;
         }
 
         .light-mode {
-            --bg-primary: #fafafa;
-            --bg-secondary: #f4f4f5;
-            --bg-card: rgba(255, 255, 255, 0.9);
-            --bg-card-hover: rgba(255, 255, 255, 1);
-            --bg-glass: rgba(255, 255, 255, 0.7);
-            --bg-elevated: rgba(255, 255, 255, 0.8);
-            --text-primary: #09090b;
-            --text-secondary: #52525b;
-            --text-muted: #a1a1aa;
-            --accent-primary: #0d9488;
-            --accent-secondary: #0f766e;
-            --accent-dim: rgba(13, 148, 136, 0.06);
-            --accent-highlight: rgba(13, 148, 136, 0.12);
-            --border-color: rgba(0, 0, 0, 0.06);
-            --border-hover: rgba(13, 148, 136, 0.25);
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 32px rgba(0,0,0,0.06);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.08);
-            --shadow-glow: 0 0 60px rgba(13, 148, 136, 0.06);
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --radius-sm: 10px;
+            --bg-100: #ffffff;
+            --bg-200: #fafafa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #fafafa;
+            --text-primary: #171717;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --accent: #171717;
+            --accent-dim: rgba(0, 0, 0, 0.03);
+            --border: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.2);
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Sora', -apple-system, sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-100);
             color: var(--text-primary);
             overflow-x: hidden;
-            transition: background 0.5s ease, color 0.5s ease;
+            transition: background 0.4s ease, color 0.4s ease;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(94, 234, 212, 0.12); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(94, 234, 212, 0.25); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
         .hero-bg {
             position: absolute;
@@ -94,10 +73,9 @@
             height: 150%;
             top: -25%;
             left: -25%;
-            background: radial-gradient(ellipse at 30% 40%, rgba(94, 234, 212, 0.06) 0%, transparent 55%),
-                        radial-gradient(ellipse at 70% 20%, rgba(94, 234, 212, 0.035) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 90%, rgba(94, 234, 212, 0.02) 0%, transparent 50%);
-            animation: drift 20s ease-in-out infinite;
+            background: radial-gradient(ellipse at 30% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 55%),
+                        radial-gradient(ellipse at 70% 20%, rgba(255, 255, 255, 0.015) 0%, transparent 50%);
+            animation: drift 25s ease-in-out infinite;
         }
         @keyframes drift {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -109,15 +87,17 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
             background-size: 64px 64px;
             z-index: 0;
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
         }
         .light-mode .grid-pattern {
             background-image:
-                linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
         }
 
         .noise {
@@ -125,7 +105,7 @@
             inset: 0;
             z-index: 9999;
             pointer-events: none;
-            opacity: 0.018;
+            opacity: 0.02;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 256px;
@@ -133,83 +113,55 @@
 
         .glow-line {
             height: 1px;
-            background: linear-gradient(90deg, transparent 5%, rgba(94, 234, 212, 0.2) 30%, rgba(94, 234, 212, 0.4) 50%, rgba(94, 234, 212, 0.2) 70%, transparent 95%);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            background: var(--border);
         }
 
         .glass-card {
             background: var(--bg-card);
-            backdrop-filter: blur(40px) saturate(1.4);
-            -webkit-backdrop-filter: blur(40px) saturate(1.4);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            box-shadow: var(--shadow-sm);
+            overflow: hidden;
         }
         .glass-card:hover {
             background: var(--bg-card-hover);
             border-color: var(--border-hover);
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-            transform: translateY(-4px);
         }
 
-        /* Top edge highlight */
+        /* Spotlight effect */
+        .glass-card .card-spotlight {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glass-card:hover .card-spotlight {
+            opacity: 1;
+        }
+
+        /* Top edge highlight on hover */
         .glass-card::after {
             content: '';
             position: absolute;
             top: 0;
-            left: 32px;
-            right: 32px;
+            left: 0;
+            right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.25), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             opacity: 0;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
             pointer-events: none;
             z-index: 2;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
         }
         .glass-card:hover::after {
             opacity: 1;
         }
 
-        /* Animated gradient border */
         .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: calc(var(--radius-lg) + 1px);
-            padding: 1px;
-            background: linear-gradient(
-                var(--gradient-angle, 0deg),
-                transparent 35%,
-                var(--accent-primary) 50%,
-                rgba(94, 234, 212, 0.3) 60%,
-                transparent 75%
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 1;
-            pointer-events: none;
-            animation: rotate-gradient 4s linear infinite;
-        }
-        .glass-card:hover::before {
-            opacity: 1;
-        }
-        @keyframes rotate-gradient {
-            0% { --gradient-angle: 0deg; }
-            100% { --gradient-angle: 360deg; }
-        }
-        @property --gradient-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
+            display: none;
         }
 
         .tilt-card {
@@ -219,84 +171,63 @@
 
         .tag-pill {
             display: inline-block;
-            padding: 5px 14px;
-            border-radius: 100px;
-            font-size: 0.68rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            border: 1px solid var(--border-color);
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            border: 1px solid var(--border);
             color: var(--text-muted);
-            background: var(--accent-dim);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            background: transparent;
+            transition: all 0.2s ease;
         }
         .tag-pill:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            background: rgba(94, 234, 212, 0.12);
-            transform: translateY(-1px);
+            border-color: var(--border-hover);
+            color: var(--text-secondary);
         }
 
         .tag-pill.algo-tag {
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             color: var(--text-muted);
-            background: var(--accent-dim);
+            background: transparent;
         }
         .tag-pill.algo-tag:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            background: rgba(94, 234, 212, 0.12);
-            transform: translateY(-1px);
+            border-color: var(--border-hover);
+            color: var(--text-secondary);
         }
 
         .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 11px 22px;
-            border-radius: var(--radius-sm);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
             font-weight: 500;
             text-decoration: none;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             color: var(--text-secondary);
             background: transparent;
-            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.2s ease;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(94, 234, 212, 0.1), rgba(94, 234, 212, 0.03));
-            opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-        .btn-primary:hover::before {
-            opacity: 1;
         }
         .btn-primary:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(94, 234, 212, 0.12);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: var(--accent-dim);
         }
 
         .contact-btn {
-            padding: 14px 28px;
-            border-radius: var(--radius-md);
+            padding: 12px 24px;
+            border-radius: 8px;
             font-size: 0.82rem;
-            background: var(--bg-elevated);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: var(--accent-dim);
         }
         .contact-btn:hover {
-            background: rgba(94, 234, 212, 0.08);
-            border-color: var(--accent-primary);
-            box-shadow: 0 8px 32px rgba(94, 234, 212, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
         }
 
         .nav-float {
@@ -306,22 +237,18 @@
             transform: translateX(-50%) translateY(-120%);
             z-index: 100;
             padding: 10px 28px;
-            background: rgba(5, 5, 5, 0.65);
-            backdrop-filter: blur(48px) saturate(1.8);
-            -webkit-backdrop-filter: blur(48px) saturate(1.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--radius-md);
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-float.visible {
             transform: translateX(-50%) translateY(0);
         }
         .light-mode .nav-float {
-            background: rgba(250, 250, 250, 0.65);
-            backdrop-filter: blur(48px) saturate(1.8);
-            -webkit-backdrop-filter: blur(48px) saturate(1.8);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .nav-inner {
@@ -332,90 +259,80 @@
         .nav-logo {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
             text-decoration: none;
         }
-        .nav-logo span { color: var(--accent-primary); }
-        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-logo span { color: var(--text-muted); }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
         .nav-link {
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 400;
+            transition: color 0.15s ease;
             position: relative;
-            letter-spacing: 0.01em;
         }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: var(--accent-primary);
-            transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            border-radius: 1px;
+            display: none;
         }
-        .nav-link:hover { color: var(--accent-primary); }
-        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: var(--text-primary); }
 
         .theme-toggle {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
             background: transparent;
             color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            font-size: 1rem;
+            transition: all 0.15s ease;
+            font-size: 0.9rem;
         }
         .theme-toggle:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            background: var(--accent-dim);
-            transform: scale(1.08);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
         }
 
         .section-container {
-            max-width: 1100px;
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 24px;
         }
 
         .project-image-wrapper {
             overflow: hidden;
-            border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0;
             position: relative;
             margin: 0;
         }
         .project-image-wrapper img {
             width: 100%;
-            height: 240px;
+            height: 220px;
             object-fit: cover;
-            filter: saturate(0.8) contrast(1.05) brightness(0.95);
-            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), filter 0.7s ease;
+            filter: brightness(0.9);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
         }
         .glass-card:hover .project-image-wrapper img {
-            transform: scale(1.05);
-            filter: saturate(1) contrast(1.05) brightness(1.05);
+            transform: scale(1.03);
+            filter: brightness(1);
         }
         .project-image-wrapper::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, var(--bg-card) 0%, rgba(12,12,18,0.2) 50%, transparent 100%);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--bg-card) 0%, transparent 100%);
             pointer-events: none;
         }
 
         @keyframes bounce-down {
             0%, 100% { transform: translateY(0); opacity: 0.3; }
-            50% { transform: translateY(10px); opacity: 0.7; }
+            50% { transform: translateY(8px); opacity: 0.6; }
         }
         .scroll-indicator {
             animation: bounce-down 2.5s ease-in-out infinite;
@@ -428,64 +345,50 @@
         .profile-glow::before {
             content: '';
             position: absolute;
-            inset: -4px;
+            inset: -2px;
             border-radius: 50%;
-            background: conic-gradient(from 0deg, rgba(94,234,212,0.4), rgba(94,234,212,0.05), rgba(94,234,212,0.4), rgba(94,234,212,0.05), rgba(94,234,212,0.4));
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
             z-index: -1;
-            animation: rotate-glow 4s linear infinite;
         }
         .profile-glow::after {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(94,234,212,0.08) 0%, transparent 70%);
-            z-index: -2;
-            pointer-events: none;
-        }
-        @keyframes rotate-glow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            display: none;
         }
         .profile-glow img {
             display: block;
             border-radius: 50%;
-            border: 3px solid var(--bg-primary);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            background: var(--bg-elevated);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
             text-decoration: none;
-            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.2s ease;
         }
         .social-icon:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            background: rgba(94, 234, 212, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(94, 234, 212, 0.15);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: var(--accent-dim);
         }
 
         .section-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
+            font-weight: 400;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            color: var(--accent-primary);
-            margin-bottom: 16px;
-            opacity: 0.8;
+            color: var(--text-muted);
+            margin-bottom: 12px;
         }
         .section-title {
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(2rem, 5vw, 2.8rem);
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 20px;
@@ -495,23 +398,25 @@
 
         .fade-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(24px);
+            filter: blur(4px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0);
         }
 
         .two-col-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 48px;
+            gap: 40px;
         }
         @media (max-width: 900px) {
             .two-col-grid {
                 grid-template-columns: 1fr;
-                gap: 64px;
+                gap: 56px;
             }
         }
         @media (max-width: 768px) {
@@ -524,25 +429,19 @@
         .footer-main {
             text-align: center;
             padding: 64px 24px 48px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
             position: relative;
         }
         .footer-main::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 25%;
-            right: 25%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.15), transparent);
+            display: none;
         }
 
         .network-canvas {
             position: absolute;
             inset: 0;
             z-index: 0;
-            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 90%);
-            mask-image: linear-gradient(to bottom, black 30%, transparent 90%);
+            -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 85%);
+            mask-image: linear-gradient(to bottom, black 30%, transparent 85%);
         }
     </style>
 </head>
@@ -736,10 +635,10 @@
                         const dy = nodes[i].y - nodes[j].y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
                         if (dist < maxDist) {
-                            const alpha = (1 - dist / maxDist) * 0.08;
+                            const alpha = (1 - dist / maxDist) * 0.06;
                             ctx.strokeStyle = isDark
-                                ? `rgba(94, 234, 212, ${alpha})`
-                                : `rgba(13, 148, 136, ${alpha})`;
+                                ? `rgba(255, 255, 255, ${alpha})`
+                                : `rgba(0, 0, 0, ${alpha})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -755,10 +654,10 @@
                     const dy = n.y - my;
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 200) {
-                        const alpha = (1 - dist / 200) * 0.15;
+                        const alpha = (1 - dist / 200) * 0.12;
                         ctx.strokeStyle = isDark
-                            ? `rgba(94, 234, 212, ${alpha})`
-                            : `rgba(13, 148, 136, ${alpha})`;
+                            ? `rgba(255, 255, 255, ${alpha})`
+                            : `rgba(0, 0, 0, ${alpha})`;
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(n.x, n.y);
@@ -770,8 +669,8 @@
                 // nodes
                 for (const n of nodes) {
                     ctx.fillStyle = isDark
-                        ? 'rgba(94, 234, 212, 0.2)'
-                        : 'rgba(13, 148, 136, 0.15)';
+                        ? 'rgba(255, 255, 255, 0.15)'
+                        : 'rgba(0, 0, 0, 0.1)';
                     ctx.beginPath();
                     ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
                     ctx.fill();
@@ -970,7 +869,7 @@
 
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '24px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, maxWidth: 1200, margin: '0 auto' }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
-                        DK<span style={{ color: 'var(--accent-primary)' }}>.</span>
+                        DK<span style={{ color: 'var(--text-muted)' }}>.</span>
                     </span>
                     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                         <a href="#about" className="nav-link" style={{ fontSize: '0.8rem' }}>About</a>
@@ -983,11 +882,11 @@
                 </div>
 
                 <div style={{ textAlign: 'center', zIndex: 1, padding: '0 24px', transform: `translateY(${parallaxY * 0.15}px)` }}>
-                    <div className="profile-glow" style={{ marginBottom: 40 }}>
+                    <div className="profile-glow" style={{ marginBottom: 36 }}>
                         <img
                             src={PROFILE.image}
                             alt={PROFILE.name}
-                            style={{ width: 130, height: 130, objectFit: 'cover' }}
+                            style={{ width: 110, height: 110, objectFit: 'cover' }}
                             onError={(e) => {
                                 e.target.style.display = 'none';
                                 e.target.parentElement.style.display = 'none';
@@ -996,13 +895,13 @@
                     </div>
 
                     <h1 style={{
-                        fontSize: 'clamp(3.2rem, 8vw, 5.5rem)',
+                        fontSize: 'clamp(3rem, 8vw, 5rem)',
                         fontWeight: 800,
                         letterSpacing: '-0.05em',
                         marginBottom: 16,
                         lineHeight: 1.05,
-                        fontFamily: "'Sora', sans-serif",
-                        background: 'linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%)',
+                        fontFamily: "'Inter', sans-serif",
+                        background: 'linear-gradient(180deg, #ffffff 0%, #666666 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
@@ -1012,11 +911,11 @@
 
                     <div style={{
                         fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+                        fontSize: 'clamp(0.8rem, 1.5vw, 0.9rem)',
                         color: 'var(--text-muted)',
                         marginBottom: 20,
                         fontWeight: 400,
-                        letterSpacing: '0.05em',
+                        letterSpacing: '0.03em',
                     }}>
                         {PROFILE.subtitle}
                     </div>
@@ -1025,19 +924,20 @@
                         fontSize: '1rem',
                         color: 'var(--text-secondary)',
                         marginBottom: 6,
-                        fontWeight: 500,
+                        fontWeight: 400,
+                        letterSpacing: '-0.01em',
                     }}>
                         {PROFILE.degree}
                     </p>
                     <p style={{
-                        fontSize: '0.85rem',
+                        fontSize: '0.88rem',
                         color: 'var(--text-muted)',
-                        marginBottom: 40,
+                        marginBottom: 36,
                     }}>
                         {PROFILE.university}
                     </p>
 
-                    <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 56 }}>
+                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 52 }}>
                         <MagneticWrapper strength={0.4}>
                             <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
                                 <Icons.github />
@@ -1067,14 +967,14 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="about" ref={ref} style={{ padding: '160px 0 120px' }}>
+            <section id="about" ref={ref} style={{ padding: '160px 0 100px' }}>
                 <div className="section-container">
                     <div className={`fade-up ${inView ? 'visible' : ''}`}>
                         <div className="section-label">// about</div>
                         <h2 className="section-title">About Me</h2>
                     </div>
                     <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ transitionDelay: '0.1s', maxWidth: 640 }}>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.9, letterSpacing: '-0.01em' }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.8, letterSpacing: '-0.01em' }}>
                             {PROFILE.bio}
                         </p>
                     </div>
@@ -1084,51 +984,61 @@
     }
 
     function ProjectCard({ project, index, inView, isAlgo }) {
-        const tilt = useTilt(10);
+        const cardRef = useRef(null);
+        const spotlightRef = useRef(null);
+
+        const handleMouseMove = useCallback((e) => {
+            const el = cardRef.current;
+            const spot = spotlightRef.current;
+            if (!el || !spot) return;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            spot.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.04), transparent 40%)`;
+        }, []);
+
         return (
             <div
-                ref={tilt.ref}
-                onMouseMove={tilt.handleMouseMove}
-                onMouseLeave={tilt.handleMouseLeave}
-                className={`glass-card tilt-card fade-up ${inView ? 'visible' : ''}`}
+                ref={cardRef}
+                onMouseMove={handleMouseMove}
+                className={`glass-card fade-up ${inView ? 'visible' : ''}`}
                 style={{
-                    overflow: 'hidden',
                     transitionDelay: `${index * 0.1}s`,
                     display: 'flex',
                     flexDirection: 'column',
-                    ...tilt.style,
                 }}
             >
+                <div ref={spotlightRef} className="card-spotlight"></div>
                 <div className="project-image-wrapper">
                     <img
                         src={project.image}
                         alt={project.title}
                         onError={(e) => {
-                            e.target.style.background = 'linear-gradient(135deg, var(--bg-secondary), var(--bg-primary))';
+                            e.target.style.background = 'linear-gradient(135deg, #111, #000)';
                             e.target.style.display = 'block';
                         }}
                     />
                 </div>
-                <div style={{ padding: '28px 28px 32px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <div style={{ padding: '24px 24px 28px', display: 'flex', flexDirection: 'column', flex: 1, position: 'relative', zIndex: 2 }}>
                     <h3 style={{
-                        fontSize: '1.15rem',
+                        fontSize: '1.05rem',
                         fontWeight: 600,
-                        marginBottom: 12,
+                        marginBottom: 10,
                         letterSpacing: '-0.02em',
-                        lineHeight: 1.3,
+                        lineHeight: 1.35,
                     }}>
                         {project.title}
                     </h3>
                     <p style={{
                         fontSize: '0.84rem',
                         color: 'var(--text-secondary)',
-                        lineHeight: 1.8,
-                        marginBottom: 20,
+                        lineHeight: 1.7,
+                        marginBottom: 18,
                         flex: 1,
                     }}>
                         {project.description}
                     </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
                         {project.tags.map(tag => (
                             <span key={tag} className={`tag-pill ${isAlgo ? 'algo-tag' : ''}`}>{tag}</span>
                         ))}
@@ -1145,8 +1055,8 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="projects" ref={ref} style={{ padding: '120px 0 160px' }}>
-                <div className="glow-line" style={{ marginBottom: 96 }}></div>
+            <section id="projects" ref={ref} style={{ padding: '100px 0 140px' }}>
+                <div className="glow-line" style={{ marginBottom: 80 }}></div>
                 <div className="section-container">
                     <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ marginBottom: 56 }}>
                         <div className="section-label">// projects</div>
@@ -1173,7 +1083,7 @@
                                 </h3>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                                 {ALGOS.map((project, i) => (
                                     <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={true} />
                                 ))}
@@ -1199,7 +1109,7 @@
                                 </h3>
                             </div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                                 {RESEARCH.map((project, i) => (
                                     <ProjectCard key={project.title} project={project} index={i} inView={inView} isAlgo={false} />
                                 ))}
@@ -1215,8 +1125,8 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="contact" ref={ref} style={{ padding: '120px 0 160px' }}>
-                <div className="glow-line" style={{ marginBottom: 96 }}></div>
+            <section id="contact" ref={ref} style={{ padding: '100px 0 140px' }}>
+                <div className="glow-line" style={{ marginBottom: 80 }}></div>
                 <div className="section-container" style={{ textAlign: 'center' }}>
                     <div className={`fade-up ${inView ? 'visible' : ''}`}>
                         <div className="section-label">// contact</div>
@@ -1253,7 +1163,7 @@
             <footer className="footer-main">
                 <div style={{ marginBottom: 12 }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                        DK<span style={{ color: 'var(--accent-primary)' }}>.</span>
+                        DK<span style={{ color: 'var(--text-muted)' }}>.</span>
                     </span>
                 </div>
                 <p style={{
