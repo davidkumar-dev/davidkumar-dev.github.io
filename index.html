@@ -77,20 +77,8 @@
                         radial-gradient(ellipse at 70% 20%, rgba(255, 255, 255, 0.015) 0%, transparent 50%);
             animation: drift 30s ease-in-out infinite;
         }
-        /* Vercel-style gradient orb */
         .hero-bg::after {
-            content: '';
-            position: absolute;
-            width: 800px;
-            height: 800px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -55%);
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.01) 30%, transparent 60%);
-            pointer-events: none;
-        }
-        .light-mode .hero-bg::after {
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.005) 30%, transparent 60%);
+            display: none;
         }
         @keyframes drift {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -141,7 +129,13 @@
         }
         .glass-card:hover {
             background: var(--bg-card-hover);
-            border-color: var(--border-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+        .light-mode .glass-card:hover {
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
 
         /* Spotlight effect */
@@ -406,19 +400,24 @@
             margin-bottom: 12px;
         }
         .section-title {
-            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
             font-weight: 700;
-            color: var(--text-primary);
             margin-bottom: 20px;
             letter-spacing: -0.04em;
-            line-height: 1.15;
+            line-height: 1.1;
+            background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .fade-up {
             opacity: 0;
-            transform: translateY(24px);
-            filter: blur(4px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px);
+            filter: blur(6px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .fade-up.visible {
             opacity: 1;
@@ -467,6 +466,103 @@
             z-index: 0;
             -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 85%);
             mask-image: linear-gradient(to bottom, black 30%, transparent 85%);
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+            z-index: 9998;
+            transform-origin: left;
+            will-change: transform;
+        }
+        .light-mode .scroll-progress {
+            background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+        }
+
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            pointer-events: none;
+            will-change: transform;
+        }
+        .aurora-blob-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            top: 10%;
+            left: 20%;
+            animation: aurora-float-1 25s ease-in-out infinite;
+        }
+        .aurora-blob-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            top: 30%;
+            right: 15%;
+            animation: aurora-float-2 30s ease-in-out infinite;
+        }
+        .aurora-blob-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 70%);
+            bottom: 20%;
+            left: 40%;
+            animation: aurora-float-3 20s ease-in-out infinite;
+        }
+        @keyframes aurora-float-1 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(60px, -40px); }
+            66% { transform: translate(-30px, 50px); }
+        }
+        @keyframes aurora-float-2 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(-50px, 30px); }
+            66% { transform: translate(40px, -20px); }
+        }
+        @keyframes aurora-float-3 {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(30px, -50px); }
+            66% { transform: translate(-40px, 20px); }
+        }
+        .light-mode .aurora-blob { opacity: 0.15; }
+        .light-mode .aurora-blob-1 { background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%); }
+        .light-mode .aurora-blob-2 { background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 70%); }
+        .light-mode .aurora-blob-3 { background: radial-gradient(circle, rgba(0,0,0,0.015) 0%, transparent 70%); }
+
+        .email-giant {
+            font-size: clamp(1.5rem, 4vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .email-giant::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--text-primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .email-giant:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .email-giant:hover {
+            color: var(--text-secondary);
         }
     </style>
 </head>
@@ -857,6 +953,9 @@
                 <NetworkCanvas isDark={isDark} />
                 <div className="hero-bg" style={{ transform: `translateY(${parallaxY * 0.5}px)` }}></div>
                 <div className="grid-pattern" style={{ transform: `translateY(${parallaxY * 0.2}px)` }}></div>
+                <div className="aurora-blob aurora-blob-1"></div>
+                <div className="aurora-blob aurora-blob-2"></div>
+                <div className="aurora-blob aurora-blob-3"></div>
 
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '24px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 10, maxWidth: 1200, margin: '0 auto' }}>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
@@ -986,15 +1085,22 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             spot.style.background = `radial-gradient(500px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`;
+            el.style.borderImage = `radial-gradient(300px circle at ${x}px ${y}px, rgba(255,255,255,0.15), var(--border) 70%) 1`;
+        }, []);
+
+        const handleMouseLeave = useCallback(() => {
+            const el = cardRef.current;
+            if (el) el.style.borderImage = 'none';
         }, []);
 
         return (
             <div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
                 className={`glass-card fade-up ${inView ? 'visible' : ''}`}
                 style={{
-                    transitionDelay: `${0.15 + index * 0.12}s`,
+                    transitionDelay: `${0.2 + index * 0.15}s`,
                     display: 'flex',
                     flexDirection: 'column',
                 }}
@@ -1116,33 +1222,30 @@
         const [ref, inView] = useInView();
 
         return (
-            <section id="contact" ref={ref} style={{ padding: '100px 0 140px' }}>
+            <section id="contact" ref={ref} style={{ padding: '120px 0 160px' }}>
                 <div className="glow-line" style={{ marginBottom: 80 }}></div>
                 <div className="section-container" style={{ textAlign: 'center' }}>
                     <div className={`fade-up ${inView ? 'visible' : ''}`}>
                         <div className="section-label">// contact</div>
                         <h2 className="section-title">Let's Connect</h2>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.7 }}>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: 500, margin: '0 auto 48px', lineHeight: 1.7 }}>
                             Always happy to chat. Feel free to reach out.
                         </p>
                     </div>
 
-                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', transitionDelay: '0.15s' }}>
-                        <MagneticWrapper strength={0.3}>
-                            <a href={`mailto:${PROFILE.email}`} className="btn-primary contact-btn">
-                                <Icons.mail /> {PROFILE.email}
-                            </a>
-                        </MagneticWrapper>
-                        <MagneticWrapper strength={0.3}>
-                            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="btn-primary contact-btn">
-                                <Icons.github /> GitHub
-                            </a>
-                        </MagneticWrapper>
-                        <MagneticWrapper strength={0.3}>
-                            <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="btn-primary contact-btn">
-                                <Icons.linkedin /> LinkedIn
-                            </a>
-                        </MagneticWrapper>
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ transitionDelay: '0.1s', marginBottom: 48 }}>
+                        <a href={`mailto:${PROFILE.email}`} className="email-giant">
+                            {PROFILE.email}
+                        </a>
+                    </div>
+
+                    <div className={`fade-up ${inView ? 'visible' : ''}`} style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', transitionDelay: '0.2s' }}>
+                        <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="btn-primary contact-btn">
+                            <Icons.github /> GitHub
+                        </a>
+                        <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="btn-primary contact-btn">
+                            <Icons.linkedin /> LinkedIn
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1170,6 +1273,7 @@
 
     function App() {
         const [isDark, setIsDark] = useState(true);
+        const [scrollProgress, setScrollProgress] = useState(0);
 
         const toggleTheme = useCallback(() => {
             setIsDark(prev => !prev);
@@ -1179,8 +1283,18 @@
             document.body.className = isDark ? '' : 'light-mode';
         }, [isDark]);
 
+        useEffect(() => {
+            const handleScroll = () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                setScrollProgress(totalHeight > 0 ? window.scrollY / totalHeight : 0);
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
         return (
             <>
+                <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
                 <FloatingNav isDark={isDark} toggleTheme={toggleTheme} />
                 <HeroSection isDark={isDark} toggleTheme={toggleTheme} />
                 <AboutSection />
