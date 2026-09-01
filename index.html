@@ -597,6 +597,38 @@
             background: radial-gradient(ellipse 120% 90% at 50% 45%, transparent 0%, rgba(2,2,8,0.55) 100%);
         }
 
+        /* The dark scrim below buys text legibility but crushes the two things
+           that make the material feel alive: the cursor lens (.liquid-glass::after
+           ships at 4% white in dark mode) and the specular rim. Push both back up
+           so they read THROUGH the scrim, leaving panel luminance untouched. */
+        .project-glass::after,
+        .rank-card::after,
+        .cert-card::after,
+        .navpill::after,
+        .searchpill::after {
+            background: radial-gradient(
+                200px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(255, 255, 255, 0.14),
+                rgba(255, 255, 255, 0.05) 42%,
+                transparent 72%
+            );
+        }
+        .liquid-glass.project-glass,
+        .liquid-glass.rank-card,
+        .liquid-glass.cert-card,
+        .liquid-glass.navpill,
+        .liquid-glass.searchpill {
+            /* the rim is a bezel, not a fill: on a short card the 15px fade
+               overlaps from both edges, so anything much above the 0.33 default
+               floods the panel. */
+            --lg-rim-lit: 0.40;
+            --lg-rim-dark: 0.38;
+        }
+        /* Press-energize only on things that are genuinely clickable, so
+           cursor:pointer never lies about what is interactive. */
+        .navpill.lg-interactive, .searchpill.lg-interactive { cursor: default; }
+        .navpill.lg-interactive a, .navpill.lg-interactive button { cursor: pointer; }
+
         /* Liquid glass, retuned for a matte-black ground.
            The library is calibrated against macOS Control Center, where the
            backdrop is bright. On #000 its measured lift (L9 -> L37) puts the
@@ -717,8 +749,8 @@
         .liquid-glass.navpill,
         .liquid-glass.searchpill,
         .nav-float.liquid-glass {
-            --lg-brightness: 0.38;
-            --lg-saturate: 128%;
+            --lg-brightness: 0.58;
+            --lg-saturate: 140%;
             --lg-contrast: 1.0;
         }
         .project-glass > .liquid-glass-tint,
@@ -727,7 +759,7 @@
         .navpill > .liquid-glass-tint,
         .searchpill > .liquid-glass-tint,
         .nav-float > .liquid-glass-tint {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.10);
         }
         .project-glass > .liquid-glass-tint::before,
         .rank-card > .liquid-glass-tint::before,
@@ -738,7 +770,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.58);
+            background: rgba(0, 0, 0, 0.30);
         }
         .light-mode .project-glass > .liquid-glass-tint::before,
         .light-mode .rank-card > .liquid-glass-tint::before,
@@ -1048,7 +1080,7 @@
         
         .cert-card { min-width: 0; }
         /* a shade lighter than the rank card, so the rows differ without clashing */
-        .cert-card > .liquid-glass-tint::before { background: rgba(0, 0, 0, 0.50); }
+        .cert-card > .liquid-glass-tint::before { background: rgba(0, 0, 0, 0.24); }
         .cert-card .liquid-glass-content { display: flex; align-items: center; gap: 10px; padding: 11px 13px; height: 100%; }
         .cert-badge {
             position: relative; width: 30px; height: 30px; flex: none;
@@ -1867,7 +1899,7 @@
                     <span className="caret"></span>
                 </a>
 
-                <nav className="liquid-glass lg-regular navpill">
+                <nav className="liquid-glass lg-regular lg-interactive navpill">
                     <div className="liquid-glass-effect"></div>
                     <div className="liquid-glass-tint"></div>
                     <div className="liquid-glass-shine"></div>
@@ -2375,7 +2407,7 @@
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className={`liquid-glass lg-regular project-glass fade-up ${inView ? 'visible' : ''}`}
+                className={`liquid-glass lg-regular lg-interactive project-glass fade-up ${inView ? 'visible' : ''}`}
                 style={{ transitionDelay: `${0.2 + index * 0.15}s` }}
             >
                 <div className="liquid-glass-effect"></div>
@@ -2464,7 +2496,7 @@
                             <h2 className="section-title" style={{ marginBottom: 0 }}>
                                 ls projects <span className="flagdim">| head -n 10</span>
                             </h2>
-                            <div className="liquid-glass lg-regular searchpill">
+                            <div className="liquid-glass lg-regular lg-interactive searchpill">
                                 <div className="liquid-glass-effect"></div>
                                 <div className="liquid-glass-tint"></div>
                                 <div className="liquid-glass-shine"></div>
@@ -2608,6 +2640,12 @@
 
         useEffect(() => {
             document.body.className = isDark ? '' : 'light-mode';
+            // @sohumsuthar/liquid-glass keys its dark calibration off html.dark.
+            // Without this every `html:not(.dark)` rule wins and the library
+            // serves LIGHT-mode values (regular tint rgba(248,248,250,0.66),
+            // soft-light lens) on a dark page - which is what forced the heavy
+            // compensating scrim below.
+            document.documentElement.classList.toggle('dark', isDark);
         }, [isDark]);
 
         useEffect(() => {
