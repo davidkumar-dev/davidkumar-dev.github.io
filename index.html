@@ -922,6 +922,71 @@
             .project-image-wrapper::before { transition: none; }
         }
 
+        /* ---- animated builds that resolve into the real chart ---- */
+        .chart-stage { position: relative; height: 200px; overflow: hidden; background: #fff; }
+        .chart-build, .chart-real {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            transition: opacity 0.9s ease;
+        }
+        .chart-build { display: flex; align-items: center; justify-content: center; background: #fff; }
+        .chart-real { object-fit: cover; }
+        .chart-build svg { width: 100%; height: 100%; display: block; }
+        .chart-stage .demo-caption { bottom: 8px; left: 12px; color: #7b8794; z-index: 3; }
+
+        .net-edge { stroke: #b9c2cc; stroke-width: 0.5; opacity: 0; transition: opacity 0.5s ease; }
+        .net-edge.on { opacity: 0.8; }
+        .net-node { fill: #2b3f6b; opacity: 0; transform-box: fill-box; transform-origin: center;
+                    transform: scale(0.2); transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.22,1.1,0.4,1); }
+        .net-node.on { opacity: 1; transform: scale(1); }
+
+        .mc-base { stroke: #e5484d; stroke-width: 1.6; stroke-dasharray: 7 5; }
+        .mc-path { fill: none; stroke-width: 0.9; opacity: 0.5;
+                   stroke-dasharray: 460; stroke-dashoffset: 460;
+                   transition: stroke-dashoffset 2.4s cubic-bezier(0.3,0.7,0.4,1); }
+        .mc-path.on { stroke-dashoffset: 0; }
+
+        .vs-row { fill: none; stroke-width: 1.5; opacity: 0;
+                  stroke-dasharray: 300; stroke-dashoffset: 300;
+                  transition: stroke-dashoffset 1.1s ease, opacity 0.4s ease; }
+        .vs-row.on { opacity: 0.95; stroke-dashoffset: 0; }
+
+        .km-wrap { width: 100%; padding: 0 22px; display: flex; flex-direction: column; gap: 9px; }
+        .km-stat { display: flex; align-items: baseline; gap: 10px; }
+        .km-v { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #14304f; min-width: 92px; }
+        .km-l { font-size: 0.62rem; letter-spacing: 0.05em; text-transform: uppercase; color: #7b8794; }
+        .km-bar { height: 3px; background: #e4e8ed; border-radius: 2px; overflow: hidden; margin-top: 2px; }
+        .km-bar span { display: block; height: 100%; background: #2b6cb0; border-radius: 2px; }
+        .km-note { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: #7b8794; }
+
+        /* ---- MindVault ---- */
+        .demo-stage.mv { height: 232px; justify-content: flex-start; padding: 14px 18px 26px; }
+        .mv-field { position: relative; flex: 1; min-height: 0; }
+        .mv-frag {
+            position: absolute; max-width: 46%;
+            font-size: 0.63rem; line-height: 1.35; color: var(--text-primary);
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 7px; padding: 5px 8px;
+            opacity: 0; transform: translateY(-14px) scale(0.94);
+            transition: opacity 0.5s ease, transform 0.85s cubic-bezier(0.5,0,0.2,1), left 0.85s cubic-bezier(0.5,0,0.2,1), top 0.85s cubic-bezier(0.5,0,0.2,1), filter 0.5s ease;
+        }
+        .mv-frag.in { opacity: 1; transform: translateY(0) scale(1); }
+        .mv-frag .mv-tag { display: block; font-family: 'JetBrains Mono', monospace;
+                           font-size: 0.5rem; font-style: normal; color: #a78bfa; margin-top: 2px; opacity: 0;
+                           transition: opacity 0.4s ease; }
+        .mv-frag.sorted .mv-tag { opacity: 1; }
+        .mv-frag.sorted {
+            left: 50% !important; top: 50% !important;
+            transform: translate(-50%, -50%) scale(0.55);
+            opacity: 0; filter: blur(2px);
+        }
+        .mv-vault {
+            position: absolute; left: 50%; top: 50%; width: 54px; height: 54px;
+            transform: translate(-50%, -50%) scale(0.6); opacity: 0;
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22,1.1,0.4,1);
+            border-radius: 12px;
+        }
+        .mv-vault.sealed { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
         /* Transforms demo chrome */
         .demo-stage.tf { height: 300px; justify-content: flex-start; gap: 9px; padding: 14px 18px 26px; }
         .tf-bar { display: flex; align-items: center; gap: 9px; }
@@ -1245,6 +1310,7 @@
             title: "MindVault",
             description: "A journal you can just ramble into. Dump whatever is in your head and a local model sorts it in the background, tags the themes, and gives you analytics on how you actually think over time. It solves two problems at once: getting it off your chest, then being able to see the pattern in what you got off your chest. Encrypted on disk, key in the Secure Enclave, nothing ever leaves the laptop.",
             image: "images/mindvault.png",
+            demo: "mindvault",
             logo: true,
             tags: ["Swift", "SQLCipher", "On-device AI"],
         },
@@ -1255,6 +1321,7 @@
             title: "Kalman Momentum - SPY Trading Signal",
             description: "A long-only trading signal for SPY using 15-minute data. Takes raw price data, smooths it with a Kalman filter to get velocity and acceleration, and enters long when both are positive (price going up and speeding up). Sizes bets based on how strong the momentum is relative to recent bars. Tested across 233 trades over 8 years of out-of-sample data. 1.13 Sharpe ratio, and statistically significant at p=0.0002 against 10,000 random entry simulations.",
             image: "images/kalman_momentum.png",
+            demo: "kalman",
             github: "https://github.com/davidkumar-dev/kalman-momentum-spy",
             tags: ["Kalman Filter", "Python", "Monte Carlo", "SPY"],
         },
@@ -1262,6 +1329,7 @@
             title: "Stock Correlation Network Analysis",
             description: "Looked at how S&P 100 stocks move together across six different market periods from 2018 to 2025. Built correlation networks to see how the structure changes. During COVID, almost everything moved together (3,228 connections). During the AI boom, stocks spread apart and moved more independently (121 connections).",
             image: "images/network_analysis.png",
+            demo: "network",
             github: "https://github.com/davidkumar-dev/stock-correlation-network",
             tags: ["Network Analysis", "Python", "NumPy", "NetworkX"],
         },
@@ -1269,6 +1337,7 @@
             title: "Monte Carlo Options Pricing",
             description: "Built a Monte Carlo framework to price options using both standard and stochastic volatility models. Priced path-dependent options like Asian and barrier options, ran risk analysis with VaR and CVaR, and cut variance by 34% using antithetic variates.",
             image: "images/monte_carlo.png",
+            demo: "montecarlo",
             github: "https://github.com/davidkumar-dev/monte-carlo-stochastic-volatility",
             tags: ["Monte Carlo", "Heston Model", "Options Pricing"],
         },
@@ -1276,6 +1345,7 @@
             title: "Volatility Surface Modeling",
             description: "Built a 3D visualization of how implied volatility changes across different strike prices and expiration dates. Used real market data to map out the volatility smile and see how it shifts over time.",
             image: "images/3d_vol.png",
+            demo: "volsurface",
             github: "https://github.com/davidkumar-dev/volatility-surface-modeling",
             tags: ["Implied Volatility", "3D Visualization", "Market Data"],
         },
@@ -2382,6 +2452,198 @@
         );
     }
 
+    // ---- shared: run a looping phase machine -------------------------------
+    function usePhases(holds, reduced) {
+        const [step, setStep] = useState(0);
+        useEffect(() => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                setStep(reduced); return;
+            }
+            let i = 0, timer;
+            const run = () => { setStep(i); timer = setTimeout(() => { i = (i + 1) % holds.length; run(); }, holds[i]); };
+            run();
+            return () => clearTimeout(timer);
+        }, []);
+        return step;
+    }
+
+    // Animated build that resolves into the project's real chart.
+    function ChartResolve({ src, alt, settled, children }) {
+        return (
+            <div className="chart-stage">
+                <div className="chart-build" style={{ opacity: settled ? 0 : 1 }}>{children}</div>
+                <img className="chart-real" src={src} alt={alt} style={{ opacity: settled ? 1 : 0 }} />
+            </div>
+        );
+    }
+
+    // ---- MindVault: a ramble lands, gets sorted, the vault closes ----------
+    const MV_FRAGMENTS = [
+        { t: "cant stop replaying that call", tag: "mood",  x: 6,  y: 14 },
+        { t: "idea: batch every meeting to tue",  tag: "ideas", x: 52, y: 8  },
+        { t: "why do i keep skipping the gym",    tag: "body",  x: 14, y: 54 },
+        { t: "owe tae a reply about the deck",    tag: "todo",  x: 58, y: 48 },
+        { t: "actually felt fine about it today", tag: "mood",  x: 30, y: 76 },
+    ];
+
+    function MindVaultDemo() {
+        const step = usePhases([1400, 700, 700, 700, 700, 1200, 2600], 6);
+        const landed = (i) => step > i;
+        const sorting = step >= 5;
+        const sealed  = step >= 6;
+        return (
+            <div className="demo-stage mv" aria-label="MindVault demo: loose thoughts land, get tagged, and are sealed into the vault">
+                <div className="mv-field">
+                    {MV_FRAGMENTS.map((f, i) => (
+                        <span key={f.t}
+                              className={`mv-frag${landed(i) ? ' in' : ''}${sorting ? ' sorted' : ''}`}
+                              style={{ left: f.x + '%', top: f.y + '%', transitionDelay: (i * 40) + 'ms' }}>
+                            {f.t}
+                            <i className="mv-tag">#{f.tag}</i>
+                        </span>
+                    ))}
+                    <img className={`mv-vault${sealed ? ' sealed' : ''}`} src="images/mindvault.png" alt="" />
+                </div>
+                <div className="demo-caption">
+                    {sealed ? 'encrypted, on device' : sorting ? 'sorted and tagged on the fly' : 'just start rambling'}
+                </div>
+            </div>
+        );
+    }
+
+    // ---- Kalman: the validation metrics resolve from nothing ---------------
+    const KM_STATS = [
+        { v: 1.13,   label: 'Sharpe, out of sample', fmt: (n) => n.toFixed(2) },
+        { v: 233,    label: 'out-of-sample trades',  fmt: (n) => Math.round(n).toString() },
+        { v: 0.0002, label: 'p vs random entry',     fmt: (n) => 'p=' + n.toFixed(4) },
+    ];
+
+    function KalmanDemo({ project }) {
+        const step = usePhases([500, 2400, 1400, 3200], 3);
+        const running = step >= 1;
+        const settled = step >= 3;
+        const [k, setK] = useState(0);
+        useEffect(() => {
+            if (!running || settled) { if (settled) setK(1); return; }
+            let raf, t0 = performance.now();
+            const tick = (t) => {
+                const p = Math.min(1, (t - t0) / 2200);
+                setK(1 - Math.pow(1 - p, 3));
+                if (p < 1) raf = requestAnimationFrame(tick);
+            };
+            raf = requestAnimationFrame(tick);
+            return () => cancelAnimationFrame(raf);
+        }, [running, settled]);
+        return (
+            <ChartResolve src={project.image} alt="" settled={settled}>
+                <div className="km-wrap">
+                    {KM_STATS.map((s) => (
+                        <div key={s.label} className="km-stat">
+                            <span className="km-v">{s.fmt(s.v * k)}</span>
+                            <span className="km-l">{s.label}</span>
+                        </div>
+                    ))}
+                    <div className="km-bar"><span style={{ width: (k * 100).toFixed(1) + '%' }}></span></div>
+                    <div className="km-note">{k < 1 ? 'replaying 233 out-of-sample trades' : '8 years, walk-forward'}</div>
+                </div>
+            </ChartResolve>
+        );
+    }
+
+    // ---- Correlation network: nodes and edges populate --------------------
+    const NET_NODES = Array.from({ length: 46 }, (_, i) => {
+        const cluster = i % 3;
+        const cx = [56, 148, 236][cluster], cy = [46, 62, 44][cluster];
+        const a = (i * 2.399), r = 10 + (i % 7) * 4.6;
+        return { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r * 0.62, c: cluster };
+    });
+
+    function NetworkDemo({ project }) {
+        const step = usePhases([400, 2600, 1200, 3200], 3);
+        const settled = step >= 3;
+        const growing = step >= 1;
+        return (
+            <ChartResolve src={project.image} alt="" settled={settled}>
+                <svg className="net-svg" viewBox="0 0 292 108" preserveAspectRatio="xMidYMid meet">
+                    {NET_NODES.map((n, i) =>
+                        NET_NODES.slice(i + 1).map((m, j) => {
+                            const d = Math.hypot(n.x - m.x, n.y - m.y);
+                            if (d > 26 || n.c !== m.c) return null;
+                            return <line key={i + '-' + j} x1={n.x} y1={n.y} x2={m.x} y2={m.y}
+                                         className={`net-edge${growing ? ' on' : ''}`}
+                                         style={{ transitionDelay: (i * 14) + 'ms' }} />;
+                        })
+                    )}
+                    {NET_NODES.map((n, i) => (
+                        <circle key={i} cx={n.x} cy={n.y} r="2.4"
+                                className={`net-node${growing ? ' on' : ''}`}
+                                style={{ transitionDelay: (i * 26) + 'ms' }} />
+                    ))}
+                </svg>
+                <div className="demo-caption">{growing ? 'S&P 100, correlation > threshold' : 'building the network'}</div>
+            </ChartResolve>
+        );
+    }
+
+    // ---- Monte Carlo: paths fan out from the start price ------------------
+    const MC_PATHS = Array.from({ length: 26 }, (_, i) => {
+        let y = 54, d = 'M 6 54';
+        let seed = i * 9973 + 17;
+        const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff - 0.5; };
+        for (let x = 6; x <= 286; x += 8) { y += rnd() * 13 + (i % 5 - 2) * 0.42; d += ` L ${x} ${Math.max(4, Math.min(104, y)).toFixed(1)}`; }
+        return { d, hue: (i * 37) % 360 };
+    });
+
+    function MonteCarloDemo({ project }) {
+        const step = usePhases([400, 2800, 1200, 3200], 3);
+        const settled = step >= 3;
+        const drawing = step >= 1;
+        return (
+            <ChartResolve src={project.image} alt="" settled={settled}>
+                <svg className="mc-svg" viewBox="0 0 292 108" preserveAspectRatio="none">
+                    <line x1="0" y1="54" x2="292" y2="54" className="mc-base" />
+                    {MC_PATHS.map((p, i) => (
+                        <path key={i} d={p.d} className={`mc-path${drawing ? ' on' : ''}`}
+                              style={{ stroke: `hsl(${p.hue} 70% 62%)`, transitionDelay: (i * 55) + 'ms' }} />
+                    ))}
+                </svg>
+                <div className="demo-caption">{drawing ? '10,000 simulated paths' : 'starting price $100'}</div>
+            </ChartResolve>
+        );
+    }
+
+    // ---- Volatility surface: the mesh fills in ----------------------------
+    const VS_ROWS = 9, VS_COLS = 14;
+
+    function VolSurfaceDemo({ project }) {
+        const step = usePhases([400, 2600, 1200, 3200], 3);
+        const settled = step >= 3;
+        const building = step >= 1;
+        const rows = [];
+        for (let r = 0; r < VS_ROWS; r++) {
+            const pts = [];
+            for (let c = 0; c < VS_COLS; c++) {
+                const x = 26 + c * 18 + r * 5.2;
+                const smile = Math.pow((c - VS_COLS / 2) / (VS_COLS / 2), 2);
+                const y = 86 - r * 6.4 - smile * 22 - (VS_ROWS - r) * 1.1;
+                pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+            }
+            rows.push({ pts: pts.join(' '), r });
+        }
+        return (
+            <ChartResolve src={project.image} alt="" settled={settled}>
+                <svg className="vs-svg" viewBox="0 0 292 108" preserveAspectRatio="xMidYMid meet">
+                    {rows.map(({ pts, r }) => (
+                        <polyline key={r} points={pts}
+                                  className={`vs-row${building ? ' on' : ''}`}
+                                  style={{ stroke: `hsl(${288 - r * 20} 78% ${52 + r * 3}%)`, transitionDelay: (r * 150) + 'ms' }} />
+                    ))}
+                </svg>
+                <div className="demo-caption">{building ? 'implied vol across strike and expiry' : 'building the surface'}</div>
+            </ChartResolve>
+        );
+    }
+
     function ProjectCard({ project, index, inView, isAlgo }) {
         const cardRef = useRef(null);
         const spotlightRef = useRef(null);
@@ -2418,6 +2680,11 @@
                 {project.demo === 'transforms' && <TransformsDemo />}
                 {project.demo === 'parking' && <ParkingDemo />}
                 {project.demo === 'campus' && <CampusDemo />}
+                {project.demo === 'mindvault' && <MindVaultDemo />}
+                {project.demo === 'kalman' && <KalmanDemo project={project} />}
+                {project.demo === 'network' && <NetworkDemo project={project} />}
+                {project.demo === 'montecarlo' && <MonteCarloDemo project={project} />}
+                {project.demo === 'volsurface' && <VolSurfaceDemo project={project} />}
                 {project.image && !project.demo && (
                     <div className={`project-image-wrapper${project.logo ? ' is-logo' : ''}`}>
                         <img
