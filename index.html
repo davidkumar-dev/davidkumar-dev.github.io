@@ -1253,7 +1253,7 @@
     const SYSTEMS = [
         {
             title: "OSU Parking Intelligence",
-            description: "Tells you how full any of OSU's 21 garages will be before you drive there. Takes a reading every five minutes, 928,000 so far, and retrains itself overnight. Off by 0.51% an hour out, about 6% a day out. Worked with CampusParc's Bob Murray, Chief Technology and Business Solutions Officer, and Keith Palma, Executive Director of Business Operations, on shaping it around the use cases most valuable to them. They committed up to two years of their data.",
+            description: "Tells you how full any of OSU's 21 garages will be before you drive there. Takes a reading every five minutes, 928,000 so far, and retrains itself overnight. Off by 0.51% an hour out, about 6% a day out. Worked with CampusParc's Bob Murray, Chief Technology and Business Solutions Officer, and Keith Palma, Executive Director of Business Operations, on shaping it around the use cases most valuable to them. They committed two years of their data, and to funding the data costs.",
             demo: "parking",
             live: "https://frontend-green-delta-60.vercel.app",
             tags: ["LightGBM", "Python", "AWS", "Next.js"],
@@ -1431,6 +1431,10 @@
             canvas.addEventListener('mouseleave', handleMouseLeave);
 
             const maxDist = 160;
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            let inView = true;
+            const shouldRun = () => inView && !document.hidden && !reduceMotion.matches;
+
             const draw = () => {
                 const cw = w(), ch = h();
                 ctx.clearRect(0, 0, cw, ch);
@@ -1495,12 +1499,35 @@
                     ctx.fill();
                 }
 
-                animRef.current = requestAnimationFrame(draw);
+                animRef.current = shouldRun() ? requestAnimationFrame(draw) : null;
             };
+            // one frame always renders, then shouldRun() decides whether to keep going
             animRef.current = requestAnimationFrame(draw);
 
+            const start = () => {
+                if (animRef.current === null && shouldRun()) animRef.current = requestAnimationFrame(draw);
+            };
+            const stop = () => {
+                if (animRef.current !== null) {
+                    cancelAnimationFrame(animRef.current);
+                    animRef.current = null;
+                }
+            };
+            const resume = () => { if (shouldRun()) start(); else stop(); };
+
+            const io = new IntersectionObserver((entries) => {
+                inView = entries[0].isIntersecting;
+                resume();
+            }, { threshold: 0 });
+            io.observe(canvas);
+            document.addEventListener('visibilitychange', resume);
+            reduceMotion.addEventListener('change', resume);
+
             return () => {
-                cancelAnimationFrame(animRef.current);
+                stop();
+                io.disconnect();
+                document.removeEventListener('visibilitychange', resume);
+                reduceMotion.removeEventListener('change', resume);
                 window.removeEventListener('resize', resize);
                 canvas.removeEventListener('mousemove', handleMouse);
                 canvas.removeEventListener('mouseleave', handleMouseLeave);
@@ -1792,7 +1819,7 @@
             const ctx = canvas.getContext('2d');
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             let stars = [];
-            let raf;
+            let raf = null;
 
             const build = () => {
                 const w = window.innerWidth, h = window.innerHeight;
@@ -1814,6 +1841,9 @@
             window.addEventListener('resize', build);
 
             let tick = 0;
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const shouldRun = () => !document.hidden && !reduceMotion.matches;
+
             const draw = () => {
                 const w = window.innerWidth, h = window.innerHeight;
                 ctx.clearRect(0, 0, w, h);
@@ -1829,10 +1859,28 @@
                     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
-                raf = requestAnimationFrame(draw);
+                raf = shouldRun() ? requestAnimationFrame(draw) : null;
             };
+            // one frame always renders, then shouldRun() decides whether to keep going
             raf = requestAnimationFrame(draw);
-            return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', build); };
+
+            const resume = () => {
+                if (shouldRun()) {
+                    if (raf === null) raf = requestAnimationFrame(draw);
+                } else if (raf !== null) {
+                    cancelAnimationFrame(raf);
+                    raf = null;
+                }
+            };
+            document.addEventListener('visibilitychange', resume);
+            reduceMotion.addEventListener('change', resume);
+
+            return () => {
+                if (raf !== null) cancelAnimationFrame(raf);
+                document.removeEventListener('visibilitychange', resume);
+                reduceMotion.removeEventListener('change', resume);
+                window.removeEventListener('resize', build);
+            };
         }, [isDark]);
         return <canvas ref={ref} className="starfield" aria-hidden="true" />;
     }
